@@ -1,24 +1,26 @@
 // ============================================================
 //  BandWise — Articles Data
-//  To add a new article: copy one object, fill in the fields
-//  Topics: history, literature, science, environment,
-//          business, psychology, culture, health
+//  vocabWords: words that show a popup definition when clicked
 // ============================================================
 
 const ARTICLES = [
-
-  // ══════════════════════════════════════════════════════════
-  //  ARTICLE 1 — History
-  // ══════════════════════════════════════════════════════════
   {
-    id: 1,
-    slug: 'silk-road',
-    topic: 'history',
+    id: 1, slug: 'silk-road', topic: 'history',
     title: 'The Silk Road: How Trade Shaped the Ancient World',
     description: 'For over a millennium, the Silk Road connected civilisations across Asia, the Middle East and Europe — transforming not just commerce, but culture, religion and language.',
-    readTime: 6,
-    level: 'Advanced',
-    access: 'free',
+    readTime: 6, level: 'Advanced', access: 'free',
+    vocabWords: [
+      { word: 'commodities',    definition: 'Raw materials or goods that can be bought and sold, such as oil, grain or silk.' },
+      { word: 'intermediary',   definition: 'A person or organisation that acts as a link between two parties in a deal.' },
+      { word: 'flourished',     definition: 'Grew or developed strongly and successfully.' },
+      { word: 'diplomatic',     definition: 'Relating to the management of relations between countries.' },
+      { word: 'renowned',       definition: 'Known and admired by many people for some quality; famous.' },
+      { word: 'cosmopolitan',   definition: 'Familiar with many different countries and cultures; diverse and international.' },
+      { word: 'geopolitical',   definition: 'Relating to politics as influenced by geographical factors.' },
+      { word: 'trajectory',     definition: 'The path or course of development of something over time.' },
+      { word: 'mutually',       definition: 'In a way that is shared equally by two or more parties.' },
+      { word: 'catastrophically', definition: 'In a way that involves sudden great damage or suffering.' }
+    ],
     paragraphs: [
       'The Silk Road was not a single road, but a vast network of trade routes stretching over 6,000 kilometres, connecting China in the east to the Mediterranean world in the west. Despite its name, silk was just one of many commodities exchanged along these routes. Spices, glassware, textiles, precious metals and, perhaps most importantly, ideas flowed in both directions for more than a thousand years.',
       'The routes flourished under a series of powerful empires. The Han Dynasty of China, which ruled from 206 BCE to 220 CE, was among the first to actively promote trade along these paths. Emperor Wu sent diplomatic missions westward, most notably that of the explorer Zhang Qian, who returned with knowledge of distant kingdoms and the potential for mutually beneficial trade. Meanwhile, the Parthian Empire of Persia served as a crucial intermediary, profiting enormously from its position between East and West.',
@@ -29,19 +31,23 @@ const ARTICLES = [
       'In recent decades, interest in the Silk Road has been revived by China\'s ambitious Belt and Road Initiative, a massive infrastructure project that aims to create new land and sea trade routes connecting China to Europe and Africa. Critics have described it as an attempt to extend Chinese geopolitical influence, while supporters argue it will bring economic development to some of the world\'s poorest regions. Whether it succeeds or not, it is a reminder that the ancient impulse to connect distant peoples through trade remains as powerful as ever.'
     ]
   },
-
-  // ══════════════════════════════════════════════════════════
-  //  ARTICLE 2 — Environment
-  // ══════════════════════════════════════════════════════════
   {
-    id: 2,
-    slug: 'ocean-plastic',
-    topic: 'environment',
+    id: 2, slug: 'ocean-plastic', topic: 'environment',
     title: 'The Plastic Ocean: A Crisis Decades in the Making',
     description: 'Every year, millions of tonnes of plastic enter the world\'s oceans. How did we arrive at this point, and is there any realistic way out?',
-    readTime: 7,
-    level: 'Advanced',
-    access: 'free',
+    readTime: 7, level: 'Advanced', access: 'free',
+    vocabWords: [
+      { word: 'debris',         definition: 'Scattered pieces of waste or remains; rubbish or wreckage.' },
+      { word: 'accumulation',   definition: 'The gradual gathering or building up of something over time.' },
+      { word: 'persistent',     definition: 'Continuing to exist for a prolonged period; not easily removed or destroyed.' },
+      { word: 'biodegrade',     definition: 'To be broken down naturally by bacteria or other living organisms.' },
+      { word: 'microplastics',  definition: 'Tiny plastic particles less than 5mm in size formed when larger plastics break down.' },
+      { word: 'ingest',         definition: 'To take food, drink or another substance into the body by swallowing.' },
+      { word: 'acute',          definition: 'Present in a severe or intense degree; critical.' },
+      { word: 'traction',       definition: 'The extent to which an idea or cause gains popularity or acceptance.' },
+      { word: 'diffuse',        definition: 'Spread out over a wide area; not concentrated in one place.' },
+      { word: 'pervasive',      definition: 'Spreading widely throughout an area or group; present everywhere.' }
+    ],
     paragraphs: [
       'In 1997, while sailing from Hawaii to California, oceanographer Charles Moore encountered something unexpected: a vast expanse of floating debris stretching in every direction as far as the eye could see. What Moore had stumbled upon was later named the Great Pacific Garbage Patch — a region of the North Pacific where ocean currents concentrate floating plastic waste into a loose accumulation covering an area roughly three times the size of France.',
       'The scale of plastic pollution in the world\'s oceans is difficult to comprehend. Estimates suggest that around eight million tonnes of plastic enter the oceans every year — the equivalent of dumping a rubbish truck\'s worth of plastic into the sea every minute. This is in addition to the estimated 150 million tonnes already present. At current rates, plastic in the ocean could outweigh all the fish in the sea by 2050.',
@@ -52,19 +58,23 @@ const ARTICLES = [
       'Perhaps the most fundamental challenge is one of psychology. Plastic pollution is a classic collective action problem: the benefits of using plastic are immediate and individual, while the costs are diffuse, delayed and shared by everyone. Solving it will require not just technological innovation, but a genuine shift in how individuals, corporations and governments think about the relationship between convenience and consequence.'
     ]
   },
-
-  // ══════════════════════════════════════════════════════════
-  //  ARTICLE 3 — Psychology
-  // ══════════════════════════════════════════════════════════
   {
-    id: 3,
-    slug: 'sleep-science',
-    topic: 'psychology',
+    id: 3, slug: 'sleep-science', topic: 'psychology',
     title: 'Why Sleep is the Foundation of Everything',
     description: 'Modern science is revealing that sleep is not a passive state of rest, but an active biological process essential to learning, health and emotional wellbeing.',
-    readTime: 6,
-    level: 'Upper-Intermediate',
-    access: 'free',
+    readTime: 6, level: 'Upper-Intermediate', access: 'free',
+    vocabWords: [
+      { word: 'consolidates',   definition: 'Strengthens or reinforces something; in memory, it means storing information long-term.' },
+      { word: 'hippocampus',    definition: 'A part of the brain that plays a major role in learning and forming new memories.' },
+      { word: 'deprivation',    definition: 'The harmful lack of something considered necessary for wellbeing.' },
+      { word: 'metabolism',     definition: 'The chemical processes in the body that convert food into energy.' },
+      { word: 'amygdala',       definition: 'A part of the brain involved in processing emotions, particularly fear and anxiety.' },
+      { word: 'chronic',        definition: 'Persisting for a long time or constantly recurring.' },
+      { word: 'restorative',    definition: 'Having the ability to restore health, strength or wellbeing.' },
+      { word: 'cognitive',      definition: 'Relating to mental processes of acquiring knowledge and understanding.' },
+      { word: 'neurological',   definition: 'Relating to the nervous system and the brain.' },
+      { word: 'cardiovascular', definition: 'Relating to the heart and blood vessels.' }
+    ],
     paragraphs: [
       'For much of human history, sleep was regarded as a passive state — a nightly shutdown during which the brain and body simply rested and recovered. This view began to change dramatically in the 1950s, when researchers discovered rapid eye movement (REM) sleep, a phase during which the brain is as electrically active as when awake. Decades of subsequent research have revealed that sleep is, in fact, one of the most complex and essential biological processes we undergo.',
       'Sleep occurs in cycles, each lasting approximately 90 minutes, through which we pass four or five times each night. The first stage is a light sleep from which we can easily be woken. The second is a deeper sleep characterised by the appearance of brain waves called sleep spindles, which are thought to play a role in memory consolidation. The third stage is deep, slow-wave sleep — the most restorative phase, during which growth hormone is released and the immune system is strengthened. The fourth stage is REM sleep, during which most dreaming occurs and emotional memories are processed.',
@@ -75,19 +85,23 @@ const ARTICLES = [
       'The good news is that improving sleep is largely within individual control. Maintaining a consistent sleep schedule, keeping the bedroom cool and dark, avoiding caffeine after early afternoon and limiting screen exposure before bedtime are all evidence-based strategies. In a world that increasingly demands more from us, prioritising sleep may be the most productive thing we can do.'
     ]
   },
-
-  // ══════════════════════════════════════════════════════════
-  //  ARTICLE 4 — Science
-  // ══════════════════════════════════════════════════════════
   {
-    id: 4,
-    slug: 'crispr',
-    topic: 'science',
+    id: 4, slug: 'crispr', topic: 'science',
     title: 'CRISPR: Rewriting the Code of Life',
     description: 'A revolutionary gene-editing technology has given scientists the ability to alter DNA with unprecedented precision. The possibilities — and the ethical questions — are enormous.',
-    readTime: 7,
-    level: 'Advanced',
-    access: 'free',
+    readTime: 7, level: 'Advanced', access: 'free',
+    vocabWords: [
+      { word: 'unprecedented',  definition: 'Never done or known before; without previous example.' },
+      { word: 'adaptive',       definition: 'Relating to the ability to change in response to new conditions.' },
+      { word: 'oncology',       definition: 'The branch of medicine dealing with the prevention and treatment of cancer.' },
+      { word: 'germline',       definition: 'Relating to cells that pass genetic information to offspring; heritable.' },
+      { word: 'contentious',    definition: 'Causing or likely to cause argument; controversial.' },
+      { word: 'condemnation',   definition: 'The expression of very strong disapproval.' },
+      { word: 'equity',         definition: 'The quality of being fair; fairness in access to resources or opportunities.' },
+      { word: 'formidable',     definition: 'Inspiring respect through being impressively powerful or capable.' },
+      { word: 'confer',         definition: 'To grant or bestow something, such as a right or benefit.' },
+      { word: 'genome',         definition: 'The complete set of genetic material present in a cell or organism.' }
+    ],
     paragraphs: [
       'In 2012, biochemist Jennifer Doudna and microbiologist Emmanuelle Charpentier published a paper that would fundamentally alter the trajectory of biology. They had developed a method for editing the DNA of living organisms with a speed, precision and affordability that previous techniques could not approach. The tool they described — CRISPR-Cas9 — has since been described as the most important biological discovery since the double helix. In 2020, Doudna and Charpentier were awarded the Nobel Prize in Chemistry.',
       'CRISPR, which stands for Clustered Regularly Interspaced Short Palindromic Repeats, was not invented by scientists — it was discovered in nature. Bacteria use CRISPR as a form of adaptive immune system, storing fragments of viral DNA so that they can recognise and destroy the same virus if it attacks again. Scientists realised that this natural machinery could be repurposed as a molecular tool, using a guide RNA molecule to direct the Cas9 protein — which acts like a pair of molecular scissors — to a precise location on a strand of DNA, where it cuts and allows edits to be made.',
@@ -98,19 +112,23 @@ const ARTICLES = [
       'Despite the controversies, the medical potential of CRISPR is undeniable. In 2023, the first CRISPR-based therapy for a human genetic disease — sickle cell disease — was approved by regulators in both the United States and the United Kingdom. For the approximately 100,000 Americans living with the condition, which causes severe pain crises and organ damage, the treatment represents something close to a cure. It is, most scientists agree, only the beginning.'
     ]
   },
-
-  // ══════════════════════════════════════════════════════════
-  //  ARTICLE 5 — Business
-  // ══════════════════════════════════════════════════════════
   {
-    id: 5,
-    slug: 'gig-economy',
-    topic: 'business',
+    id: 5, slug: 'gig-economy', topic: 'business',
     title: 'The Gig Economy: Freedom or Exploitation?',
     description: 'Platforms like Uber, Deliveroo and Fiverr have created a new model of work. But who really benefits — the workers, the companies, or the consumers?',
-    readTime: 6,
-    level: 'Upper-Intermediate',
-    access: 'free',
+    readTime: 6, level: 'Upper-Intermediate', access: 'free',
+    vocabWords: [
+      { word: 'inaugurate',     definition: 'To begin or introduce something officially; to mark the start of a new period.' },
+      { word: 'diversify',      definition: 'To enlarge or vary the range of something, such as income sources.' },
+      { word: 'contractors',    definition: 'People who undertake work for others under a contract, not as permanent employees.' },
+      { word: 'illusory',       definition: 'Based on illusion; not what it appears to be; deceptive.' },
+      { word: 'algorithmic',    definition: 'Relating to a set of rules or instructions followed by a computer.' },
+      { word: 'fragmented',     definition: 'Broken into small, disconnected parts.' },
+      { word: 'collective',     definition: 'Done by or belonging to all members of a group; shared.' },
+      { word: 'erode',          definition: 'To gradually destroy or weaken something over time.' },
+      { word: 'proponents',     definition: 'People who advocate or support a particular idea or cause.' },
+      { word: 'encompass',      definition: 'To include a wide range of things; to surround or cover completely.' }
+    ],
     paragraphs: [
       'In 2009, a small startup in San Francisco introduced a smartphone app that allowed anyone with a car to become a taxi driver. Uber\'s founders could not have anticipated that they were helping to inaugurate an entirely new model of work — one that would grow to encompass food delivery, freelance design, home cleaning, legal advice and hundreds of other services. This model, in which workers are engaged on a task-by-task basis rather than as permanent employees, has come to be known as the gig economy.',
       'The appeal of gig work, at least in theory, is mutual. For workers, it offers flexibility: the ability to choose when, where and how much to work, to fit employment around other commitments, and to diversify income across multiple platforms. For companies, it dramatically reduces costs: gig workers are classified as independent contractors rather than employees, meaning companies avoid paying for benefits such as health insurance, pension contributions, sick pay and paid holiday. For consumers, it typically means faster, cheaper services.',
@@ -121,19 +139,23 @@ const ARTICLES = [
       'The gig economy represents a profound challenge to labour institutions built during the 20th century — collective bargaining, employment protection legislation, social insurance systems — which were designed for a world of stable, long-term employment relationships. Whether societies will adapt these institutions to protect gig workers, or whether gig work will gradually erode them, remains one of the defining economic questions of our time.'
     ]
   },
-
-  // ══════════════════════════════════════════════════════════
-  //  ARTICLE 6 — Literature
-  // ══════════════════════════════════════════════════════════
   {
-    id: 6,
-    slug: 'dystopian-fiction',
-    topic: 'literature',
+    id: 6, slug: 'dystopian-fiction', topic: 'literature',
     title: 'Why We Can\'t Stop Reading About the End of the World',
     description: 'From Orwell to Atwood, dystopian fiction has never been more popular. What does our obsession with imagined catastrophe tell us about the present?',
-    readTime: 5,
-    level: 'Upper-Intermediate',
-    access: 'free',
+    readTime: 5, level: 'Upper-Intermediate', access: 'free',
+    vocabWords: [
+      { word: 'dystopian',      definition: 'Relating to an imagined society where there is great suffering or injustice.' },
+      { word: 'oppression',     definition: 'Prolonged cruel or unjust treatment or control of a group of people.' },
+      { word: 'totalitarian',   definition: 'Relating to a system of government requiring complete obedience to the state.' },
+      { word: 'prescient',      definition: 'Having knowledge of events before they take place; far-sighted.' },
+      { word: 'polemic',        definition: 'A strong written or verbal attack on someone or something; a controversial argument.' },
+      { word: 'dehumanising',   definition: 'Depriving someone of human qualities, personality or dignity.' },
+      { word: 'authoritarianism', definition: 'A political system concentrating power in a leader who demands obedience.' },
+      { word: 'phenomenon',     definition: 'A fact or situation observed to exist, especially one whose cause is unclear.' },
+      { word: 'extrapolated',   definition: 'Extended existing trends or data to infer possible outcomes.' },
+      { word: 'utopian',        definition: 'Relating to an imagined perfect society or world.' }
+    ],
     paragraphs: [
       'In a genre defined by oppression, surveillance, environmental collapse and authoritarian control, it might seem strange that dystopian fiction has become one of the most commercially successful literary forms of the 21st century. The Hunger Games trilogy sold over 100 million copies. Margaret Atwood\'s The Handmaid\'s Tale, first published in 1985, became a cultural phenomenon following its television adaptation in 2017. George Orwell\'s Nineteen Eighty-Four consistently tops lists of the most widely read novels in the English language. Something about imagined catastrophe speaks powerfully to contemporary readers.',
       'The tradition of dystopian writing is older than many readers realise. Thomas More\'s Utopia (1516), which coined the very word, described an idealised society — but its name, derived from the Greek for "no place", suggested that such perfection was unattainable. By the 20th century, writers were increasingly inverting the utopian tradition: rather than describing perfect societies, they were constructing nightmarish ones as a means of criticising tendencies they observed in the present.',
@@ -143,19 +165,23 @@ const ARTICLES = [
       'Atwood herself has been careful to distinguish dystopia from pure pessimism. She has argued that dystopian fiction performs a crucial social function: it maps the distance between what is and what might become, making that distance visible and therefore negotiable. "Dystopia," she has written, "is not a prediction. It\'s a warning." In this reading, the popularity of dystopian fiction might be seen not as a symptom of despair, but as evidence of a society still capable of recognising, and therefore potentially resisting, the worst tendencies of its age.'
     ]
   },
-
-  // ══════════════════════════════════════════════════════════
-  //  ARTICLE 7 — Culture
-  // ══════════════════════════════════════════════════════════
   {
-    id: 7,
-    slug: 'coffee-culture',
-    topic: 'culture',
+    id: 7, slug: 'coffee-culture', topic: 'culture',
     title: 'Coffee: The Drink That Changed the World',
     description: 'From the coffeehouses of 17th-century London to the global café chains of today, coffee has shaped economies, politics and social life for centuries.',
-    readTime: 5,
-    level: 'Intermediate',
-    access: 'free',
+    readTime: 5, level: 'Intermediate', access: 'free',
+    vocabWords: [
+      { word: 'ubiquity',       definition: 'The fact of appearing or being found everywhere; being very common.' },
+      { word: 'cultivated',     definition: 'Prepared and used for growing crops; developed or refined over time.' },
+      { word: 'institution',    definition: 'An established organisation or practice important in society.' },
+      { word: 'Enlightenment',  definition: 'A philosophical movement of the 17th–18th centuries emphasising reason and individual rights.' },
+      { word: 'smallholder',    definition: 'A person who owns or rents a small farm.' },
+      { word: 'transparency',   definition: 'Openness and honesty about processes or finances.' },
+      { word: 'stimulating',    definition: 'Raising levels of activity; encouraging interest or excitement.' },
+      { word: 'ritual',         definition: 'A series of actions performed in a prescribed order with social significance.' },
+      { word: 'commodity',      definition: 'A raw material or product that can be bought and sold.' },
+      { word: 'transcends',     definition: 'Goes beyond the limits of something; surpasses.' }
+    ],
     paragraphs: [
       'Coffee is, after oil, the most traded commodity on earth. More than two billion cups are consumed every day across the globe. It fuels early mornings, academic deadlines and business meetings; it is woven into the social rituals of dozens of cultures; and its cultivation, processing and trade supports the livelihoods of an estimated 125 million people worldwide. Yet for all its ubiquity, coffee has a history that is both richer and stranger than most of its drinkers realise.',
       'The coffee plant is native to Ethiopia, where, according to popular legend, a goatherder named Kaldi noticed that his goats became unusually energetic after eating berries from a certain tree. Whether or not Kaldi existed, it is well established that coffee was being cultivated and traded in Yemen by the 15th century, and that the beverage spread rapidly across the Arab world. The word "coffee" itself derives from the Arabic qahwa, meaning "that which prevents sleep."',
@@ -165,19 +191,23 @@ const ARTICLES = [
       'The contemporary coffee industry has undergone a remarkable transformation over the past three decades. The rise of specialty coffee — a movement focused on high-quality beans, transparent supply chains and skilled preparation — has created a new category of coffee shop that is as much a cultural statement as a place of business. The language of wine has migrated to coffee: tasting notes speak of acidity, body, florality and fruit. Barista championships are held internationally. Meanwhile, multinational chains like Starbucks have brought a standardised coffee culture to cities across the world, creating a form of comfortable familiarity that transcends national boundaries.'
     ]
   },
-
-  // ══════════════════════════════════════════════════════════
-  //  ARTICLE 8 — Health
-  // ══════════════════════════════════════════════════════════
   {
-    id: 8,
-    slug: 'gut-microbiome',
-    topic: 'health',
+    id: 8, slug: 'gut-microbiome', topic: 'health',
     title: 'The Universe Inside You: The Gut Microbiome',
     description: 'The trillions of microorganisms living in your digestive system influence far more than digestion. Scientists are discovering links to mental health, immunity and disease.',
-    readTime: 6,
-    level: 'Advanced',
-    access: 'free',
+    readTime: 6, level: 'Advanced', access: 'free',
+    vocabWords: [
+      { word: 'microbiome',     definition: 'The community of microorganisms living in a particular environment, especially the gut.' },
+      { word: 'archaea',        definition: 'Single-celled microorganisms similar to bacteria but genetically distinct.' },
+      { word: 'synthesises',    definition: 'Produces a substance by combining chemical elements or simpler substances.' },
+      { word: 'pathogens',      definition: 'Microorganisms such as bacteria or viruses that can cause disease.' },
+      { word: 'bidirectional',  definition: 'Operating in two directions; going both ways.' },
+      { word: 'neurotransmitter', definition: 'A chemical that transmits signals between nerve cells in the brain and body.' },
+      { word: 'causality',      definition: 'The relationship between cause and effect.' },
+      { word: 'resilient',      definition: 'Able to recover quickly from difficulties; tough and adaptable.' },
+      { word: 'therapeutic',    definition: 'Relating to the treatment of disease; having a healing effect.' },
+      { word: 'inflammatory',   definition: 'Relating to or causing inflammation in the body.' }
+    ],
     paragraphs: [
       'The human body contains approximately 37 trillion cells. It also contains, by recent estimates, approximately 38 trillion microorganisms — bacteria, viruses, fungi and archaea — most of them residing in the large intestine. This vast community of microscopic life, collectively known as the gut microbiome, has been the subject of intense scientific interest over the past two decades, as researchers have begun to unravel just how profoundly it influences human health.',
       'The relationship between humans and their gut microbiomes is one of mutual dependency. The microbiome helps digest food that the human body cannot process on its own, including certain plant fibres. It synthesises vitamins, including vitamin K and several B vitamins. It plays a crucial role in training and regulating the immune system — the gut contains approximately 70% of the body\'s immune cells. And it forms a protective barrier against harmful pathogens, competing with them for space and resources.',
@@ -188,5 +218,4 @@ const ARTICLES = [
       'The therapeutic potential of microbiome science is generating considerable excitement. Faecal microbiota transplants — in which the gut microbiome of a healthy donor is transferred to a recipient — have proved highly effective in treating recurrent Clostridioides difficile infections, a serious gut condition that kills thousands of people annually. Researchers are now investigating whether similar approaches might be useful in treating inflammatory bowel disease, obesity and even mental health conditions. The microbiome, it is becoming clear, is not merely a passenger in the human body, but an active participant in health and disease.'
     ]
   }
-
 ]; // end ARTICLES
