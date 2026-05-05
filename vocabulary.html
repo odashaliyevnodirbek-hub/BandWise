@@ -1,431 +1,435 @@
 <!DOCTYPE html>
-<!-- saved from url=(0046)file:///C:/Users/Nodirbek/Downloads/login.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BandUp — Login</title>
-<link href="./vocab_files/css2" rel="stylesheet">
+<title>BandWise — Vocabulary</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root {
     --bg:#0a0c10; --surface:#13161d; --surface2:#1a1e28;
     --border:#252a38; --gold:#d4a843; --gold-light:#f0c967;
     --text:#e8eaf0; --muted:#5a6278; --muted2:#8892a4;
-    --green:#34d399; --red:#f87171;
+    --green:#34d399; --red:#f87171; --blue:#60a5fa;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    background:var(--bg); color:var(--text);
-    font-family:'DM Sans',sans-serif; min-height:100vh;
-    display:grid; grid-template-columns:1fr 1fr;
+  body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; display:flex; min-height:100vh; }
+
+  /* ── SIDEBAR (same as dashboard) ── */
+  .sidebar {
+    width:230px; background:var(--surface); border-right:1px solid var(--border);
+    display:flex; flex-direction:column; position:fixed; top:0; left:0; height:100vh; z-index:50;
   }
-  @media(max-width:768px){ body{grid-template-columns:1fr;} .left-panel{display:none;} }
-
-  /* LEFT PANEL */
-  .left-panel {
-    background:var(--surface);
-    border-right:1px solid var(--border);
-    display:flex; flex-direction:column;
-    justify-content:space-between;
-    padding:2.5rem;
-    position:relative; overflow:hidden;
+  .sidebar-logo {
+    padding:1.5rem 1.5rem 1rem; border-bottom:1px solid var(--border);
+    font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:900;
+    display:flex; align-items:baseline;
   }
-  .left-panel::before {
-    content:''; position:absolute; top:-100px; right:-100px;
-    width:500px; height:500px;
-    background:radial-gradient(ellipse, rgba(212,168,67,0.1) 0%, transparent 60%);
-    pointer-events:none;
+  .logo-band { color:var(--text); }
+  .logo-wise { color:var(--gold); font-style:italic; }
+  .sidebar-nav { flex:1; padding:1rem 0.7rem; display:flex; flex-direction:column; gap:0.2rem; overflow-y:auto; }
+  .nav-item {
+    display:flex; align-items:center; gap:0.7rem; padding:0.65rem 0.9rem; border-radius:9px;
+    font-size:0.87rem; font-weight:500; color:var(--muted2); cursor:pointer; transition:all 0.15s; text-decoration:none;
   }
-  .left-panel::after {
-    content:''; position:absolute; bottom:-100px; left:-100px;
-    width:400px; height:400px;
-    background:radial-gradient(ellipse, rgba(96,165,250,0.05) 0%, transparent 60%);
-    pointer-events:none;
+  .nav-item:hover { background:var(--surface2); color:var(--text); }
+  .nav-item.active { background:rgba(212,168,67,0.12); color:var(--gold); font-weight:600; }
+  .nav-item .icon { font-size:1rem; width:20px; text-align:center; }
+  .nav-section-label {
+    font-size:0.67rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--muted); padding:0.8rem 0.9rem 0.3rem;
   }
-
-  .logo { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:900; color:var(--gold); position:relative; z-index:1; }
-  .logo span { color:var(--text); }
-  .logo a { text-decoration:none; }
-
-  .left-content { position:relative; z-index:1; }
-  .left-content h2 {
-    font-family:'Playfair Display',serif;
-    font-size:2.5rem; font-weight:900; line-height:1.1;
-    margin-bottom:1rem;
-  }
-  .left-content h2 em { color:var(--gold); font-style:italic; }
-  .left-content p { color:var(--muted2); font-size:0.9rem; line-height:1.7; margin-bottom:2rem; }
-
-  .left-features { display:flex; flex-direction:column; gap:0.8rem; }
-  .left-feat {
-    display:flex; align-items:center; gap:0.8rem;
-    font-size:0.85rem; color:var(--muted2);
-  }
-  .left-feat .icon {
-    width:32px; height:32px; border-radius:8px;
-    background:rgba(212,168,67,0.1);
-    display:flex; align-items:center; justify-content:center;
-    font-size:0.9rem; flex-shrink:0;
-  }
-
-  .testimonial-mini {
-    background:var(--surface2); border:1px solid var(--border);
-    border-radius:12px; padding:1.2rem;
-    position:relative; z-index:1;
-  }
-  .testimonial-mini p { font-size:0.83rem; color:var(--muted2); font-style:italic; line-height:1.6; margin-bottom:0.8rem; }
-  .testimonial-mini .author { font-size:0.78rem; color:var(--gold); font-weight:600; }
-  .testimonial-mini .stars { color:var(--gold); font-size:0.75rem; margin-bottom:0.5rem; }
-
-  /* RIGHT PANEL */
-  .right-panel {
-    display:flex; align-items:center; justify-content:center;
-    padding:2rem; min-height:100vh;
-  }
-
-  .auth-box { width:100%; max-width:420px; }
-
-  .auth-tabs {
-    display:flex; background:var(--surface);
-    border:1px solid var(--border); border-radius:10px;
-    padding:0.3rem; margin-bottom:2rem;
-  }
-  .auth-tab {
-    flex:1; padding:0.6rem;
-    text-align:center; border-radius:7px;
-    font-size:0.88rem; font-weight:600;
-    cursor:pointer; transition:all 0.2s;
-    color:var(--muted2); border:none; background:transparent;
-    font-family:'DM Sans',sans-serif;
-  }
-  .auth-tab.active { background:var(--gold); color:#0a0c10; }
-
-  .auth-title {
-    font-family:'Playfair Display',serif;
-    font-size:1.8rem; font-weight:900;
-    margin-bottom:0.4rem;
-  }
-  .auth-title em { color:var(--gold); font-style:italic; }
-  .auth-subtitle { color:var(--muted2); font-size:0.85rem; margin-bottom:2rem; }
-
-  /* FORM */
-  .form-group { margin-bottom:1.1rem; }
-  .form-label { display:block; font-size:0.8rem; font-weight:600; color:var(--muted2); margin-bottom:0.4rem; letter-spacing:0.04em; text-transform:uppercase; }
-  .form-input {
-    width:100%; background:var(--surface);
-    border:1px solid var(--border); border-radius:8px;
-    padding:0.75rem 1rem; color:var(--text);
-    font-family:'DM Sans',sans-serif; font-size:0.9rem;
-    outline:none; transition:border-color 0.2s;
-  }
-  .form-input:focus { border-color:var(--gold); }
-  .form-input::placeholder { color:var(--muted); }
-  .form-input.error { border-color:var(--red); }
-
-  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; }
-
-  .form-hint { font-size:0.75rem; color:var(--muted2); margin-top:0.3rem; }
-  .form-error { font-size:0.75rem; color:var(--red); margin-top:0.3rem; display:none; }
-  .form-error.show { display:block; }
-
-  /* PASSWORD STRENGTH */
-  .password-strength { margin-top:0.4rem; }
-  .strength-bar { display:flex; gap:3px; margin-bottom:0.3rem; }
-  .strength-seg { flex:1; height:3px; border-radius:2px; background:var(--border); transition:background 0.3s; }
-  .strength-seg.weak { background:var(--red); }
-  .strength-seg.medium { background:var(--gold); }
-  .strength-seg.strong { background:var(--green); }
-  .strength-label { font-size:0.72rem; color:var(--muted2); }
-
-  .checkbox-row {
-    display:flex; align-items:flex-start; gap:0.6rem;
-    margin-bottom:1.3rem;
-  }
-  .checkbox-row input { margin-top:3px; accent-color:var(--gold); cursor:pointer; }
-  .checkbox-row label { font-size:0.82rem; color:var(--muted2); line-height:1.5; cursor:pointer; }
-  .checkbox-row a { color:var(--gold); text-decoration:none; }
-
-  .btn-submit {
-    width:100%; padding:0.85rem;
+  .sidebar-bottom { padding:1rem 0.7rem; border-top:1px solid var(--border); }
+  .user-chip { display:flex; align-items:center; gap:0.7rem; padding:0.65rem 0.9rem; border-radius:9px; cursor:pointer; }
+  .avatar {
+    width:32px; height:32px; border-radius:50%;
     background:linear-gradient(135deg,var(--gold),var(--gold-light));
-    color:#0a0c10; border:none; border-radius:9px;
-    font-family:'DM Sans',sans-serif; font-size:0.95rem; font-weight:700;
-    cursor:pointer; transition:all 0.2s; margin-bottom:1rem;
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.8rem; font-weight:700; color:#0a0c10; flex-shrink:0;
   }
-  .btn-submit:hover { transform:translateY(-1px); box-shadow:0 8px 24px rgba(212,168,67,0.3); }
-  .btn-submit:disabled { opacity:0.5; cursor:not-allowed; transform:none; box-shadow:none; }
+  .user-name { font-size:0.83rem; font-weight:600; }
+  .user-plan { font-size:0.7rem; color:var(--gold); }
+  .btn-logout {
+    width:100%; margin-top:0.5rem; padding:0.5rem; background:transparent;
+    border:1px solid var(--border); color:var(--muted2); border-radius:8px;
+    font-family:'DM Sans',sans-serif; font-size:0.78rem; cursor:pointer; transition:all 0.2s;
+  }
+  .btn-logout:hover { border-color:var(--red); color:var(--red); }
 
-  .divider {
-    display:flex; align-items:center; gap:0.8rem;
-    margin-bottom:1rem; color:var(--muted); font-size:0.78rem;
+  /* ── MAIN ── */
+  .main { margin-left:230px; flex:1; }
+  .topbar {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:1rem 2rem; border-bottom:1px solid var(--border);
+    background:rgba(10,12,16,0.9); backdrop-filter:blur(10px);
+    position:sticky; top:0; z-index:40;
   }
-  .divider::before, .divider::after {
-    content:''; flex:1; height:1px; background:var(--border);
+  .topbar h1 { font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700; }
+  .topbar-right { display:flex; align-items:center; gap:1rem; }
+  .btn-theme {
+    background:transparent; border:1px solid var(--border); color:var(--text);
+    width:32px; height:32px; border-radius:8px; cursor:pointer; font-size:0.95rem;
+    display:flex; align-items:center; justify-content:center;
   }
 
-  .btn-google {
-    width:100%; padding:0.75rem;
-    background:var(--surface); border:1px solid var(--border);
-    color:var(--text); border-radius:9px;
-    font-family:'DM Sans',sans-serif; font-size:0.88rem; font-weight:500;
+  /* ── CONTENT ── */
+  .content { padding:2rem; display:grid; grid-template-columns:1fr 280px; gap:1.5rem; align-items:start; }
+  @media(max-width:1000px){ .content{grid-template-columns:1fr;} }
+
+  /* ── LEFT COLUMN ── */
+  .left-col { display:flex; flex-direction:column; gap:1.2rem; }
+
+  /* ── MODE SWITCHER ── */
+  .mode-switcher {
+    display:flex; gap:0.5rem; background:var(--surface); border:1px solid var(--border);
+    border-radius:10px; padding:0.3rem; width:fit-content;
+  }
+  .mode-btn {
+    padding:0.5rem 1.3rem; border-radius:7px; border:none; background:transparent;
+    color:var(--muted2); font-family:'DM Sans',sans-serif; font-size:0.85rem; font-weight:500;
     cursor:pointer; transition:all 0.2s;
-    display:flex; align-items:center; justify-content:center; gap:0.6rem;
   }
-  .btn-google:hover { border-color:var(--muted2); background:var(--surface2); }
+  .mode-btn.active { background:rgba(212,168,67,0.15); color:var(--gold); font-weight:600; }
 
-  .forgot-link { text-align:right; margin-bottom:1.2rem; }
-  .forgot-link a { color:var(--gold); font-size:0.8rem; text-decoration:none; }
+  /* ── PROGRESS ── */
+  .progress-row { display:flex; align-items:center; gap:1rem; }
+  .progress-track { flex:1; height:6px; background:var(--border); border-radius:3px; overflow:hidden; }
+  .progress-fill { height:100%; background:linear-gradient(90deg,var(--gold),var(--gold-light)); border-radius:3px; transition:width 0.4s ease; width:0%; }
+  .progress-label { font-size:0.78rem; color:var(--muted2); width:50px; text-align:right; }
 
-  .switch-text { text-align:center; font-size:0.82rem; color:var(--muted2); margin-top:1.2rem; }
-  .switch-text a { color:var(--gold); text-decoration:none; font-weight:600; cursor:pointer; }
+  /* ── VOCAB AREA ── */
+  #vocab-area { min-height:360px; display:flex; align-items:center; justify-content:center; }
 
-  /* SUCCESS STATE */
-  .success-state { display:none; text-align:center; padding:2rem 0; }
-  .success-state.show { display:block; }
-  .success-icon { font-size:3.5rem; margin-bottom:1rem; }
-  .success-state h3 { font-family:'Playfair Display',serif; font-size:1.5rem; margin-bottom:0.5rem; }
-  .success-state p { color:var(--muted2); font-size:0.88rem; margin-bottom:1.5rem; }
-
-  /* FORM PANELS */
-  .form-panel { display:none; }
-  .form-panel.active { display:block; }
-
-  /* LOADING */
-  .btn-submit.loading { pointer-events:none; }
-  .btn-submit.loading::after {
-    content:''; display:inline-block;
-    width:14px; height:14px; border:2px solid rgba(0,0,0,0.3);
-    border-top-color:#0a0c10; border-radius:50%;
-    animation:spin 0.6s linear infinite; margin-left:0.5rem;
+  /* ── CARD WRAP ── */
+  .card-wrap { width:100%; display:flex; flex-direction:column; align-items:center; gap:1.2rem; }
+  .topic-tag {
+    font-size:0.75rem; color:var(--muted2); background:var(--surface2);
+    border:1px solid var(--border); padding:0.3rem 0.8rem; border-radius:20px;
   }
-  @keyframes spin { to{ transform:rotate(360deg); } }
+
+  /* ── FLASHCARD ── */
+  .flashcard {
+    width:100%; max-width:560px; height:260px; perspective:1000px; cursor:pointer;
+  }
+  .flashcard-inner {
+    width:100%; height:100%; position:relative; transition:transform 0.5s ease;
+    transform-style:preserve-3d;
+  }
+  .flashcard.flipped .flashcard-inner { transform:rotateY(180deg); }
+  .flashcard-front, .flashcard-back {
+    position:absolute; width:100%; height:100%;
+    background:var(--surface); border:1px solid var(--border); border-radius:16px;
+    backface-visibility:hidden; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; padding:2rem; text-align:center;
+  }
+  .flashcard-back { transform:rotateY(180deg); border-color:rgba(212,168,67,0.25); }
+  .card-hint { font-size:0.72rem; color:var(--muted); margin-bottom:1rem; }
+  .card-word { font-family:'Playfair Display',serif; font-size:2.5rem; font-weight:900; color:var(--gold); }
+  .card-definition { font-size:1rem; color:var(--text); line-height:1.6; margin-bottom:1rem; font-weight:500; }
+  .card-example { font-size:0.83rem; color:var(--muted2); font-style:italic; line-height:1.5; }
+
+  /* ── FLASHCARD ACTIONS ── */
+  .card-actions { display:flex; gap:0.8rem; opacity:0; pointer-events:none; transition:opacity 0.3s; }
+  .card-actions.visible { opacity:1; pointer-events:all; }
+  .btn-action {
+    padding:0.6rem 1.3rem; border-radius:9px; border:1px solid var(--border);
+    background:var(--surface); color:var(--muted2); font-family:'DM Sans',sans-serif;
+    font-size:0.83rem; font-weight:600; cursor:pointer; transition:all 0.2s;
+  }
+  .btn-learning:hover, .btn-learning.active { border-color:var(--red); color:var(--red); background:rgba(248,113,113,0.08); }
+  .btn-known:hover, .btn-known.active { border-color:var(--green); color:var(--green); background:rgba(52,211,153,0.08); }
+  .btn-next { border-color:var(--border); }
+  .btn-next:hover { border-color:var(--gold); color:var(--gold); }
+
+  /* ── QUIZ ── */
+  .quiz-card {
+    width:100%; max-width:560px; background:var(--surface);
+    border:1px solid var(--border); border-radius:16px; padding:2rem;
+  }
+  .quiz-score-display { font-size:0.75rem; color:var(--muted2); margin-bottom:1rem; }
+  .quiz-word { font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; color:var(--gold); margin-bottom:0.4rem; }
+  .quiz-prompt { font-size:0.82rem; color:var(--muted2); margin-bottom:1.2rem; }
+  .quiz-options { display:flex; flex-direction:column; gap:0.6rem; }
+  .quiz-opt {
+    width:100%; text-align:left; padding:0.8rem 1rem;
+    background:var(--surface2); border:1px solid var(--border); border-radius:9px;
+    color:var(--text); font-family:'DM Sans',sans-serif; font-size:0.85rem;
+    cursor:pointer; transition:all 0.15s;
+  }
+  .quiz-opt:hover:not(:disabled) { border-color:rgba(212,168,67,0.3); }
+  .quiz-opt.correct { border-color:var(--green); background:rgba(52,211,153,0.1); color:var(--green); }
+  .quiz-opt.wrong { border-color:var(--red); background:rgba(248,113,113,0.1); color:var(--red); }
+  .quiz-opt:disabled { cursor:default; }
+  .quiz-example { font-size:0.82rem; color:var(--muted2); font-style:italic; margin-top:1rem; padding-top:1rem; border-top:1px solid var(--border); }
+  .btn-next-quiz {
+    margin-top:1rem; padding:0.6rem 1.5rem; background:rgba(212,168,67,0.12);
+    border:1px solid rgba(212,168,67,0.25); color:var(--gold); border-radius:9px;
+    font-family:'DM Sans',sans-serif; font-size:0.85rem; font-weight:600; cursor:pointer; transition:all 0.2s;
+  }
+  .btn-next-quiz:hover { background:rgba(212,168,67,0.2); }
+  .hidden { display:none !important; }
+
+  /* ── COMPLETE ── */
+  .complete-screen { text-align:center; padding:2rem; }
+  .complete-icon { font-size:3rem; margin-bottom:1rem; }
+  .complete-title { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:900; margin-bottom:0.5rem; }
+  .complete-stat { color:var(--muted2); font-size:0.9rem; margin-bottom:1.5rem; }
+  .complete-stat strong { color:var(--gold); }
+  .complete-actions { display:flex; gap:0.8rem; justify-content:center; }
+  .btn-restart {
+    padding:0.65rem 1.4rem; background:rgba(212,168,67,0.12);
+    border:1px solid rgba(212,168,67,0.25); color:var(--gold);
+    border-radius:9px; font-family:'DM Sans',sans-serif; font-size:0.85rem; font-weight:600; cursor:pointer;
+  }
+  .btn-switch {
+    padding:0.65rem 1.4rem; background:var(--surface2);
+    border:1px solid var(--border); color:var(--text);
+    border-radius:9px; font-family:'DM Sans',sans-serif; font-size:0.85rem; cursor:pointer;
+  }
+
+  /* ── EMPTY STATE ── */
+  .empty-state { text-align:center; color:var(--muted2); }
+  .empty-icon { font-size:2.5rem; margin-bottom:0.8rem; }
+
+  /* ── RIGHT COLUMN ── */
+  .right-col { display:flex; flex-direction:column; gap:1.2rem; position:sticky; top:80px; }
+  .panel { background:var(--surface); border:1px solid var(--border); border-radius:14px; overflow:hidden; }
+  .panel-header { padding:1rem 1.2rem; border-bottom:1px solid var(--border); font-size:0.85rem; font-weight:700; }
+  .panel-body { padding:1.2rem; }
+
+  /* ── STATS ── */
+  .stat-mini-row { display:flex; gap:0.8rem; }
+  .stat-mini {
+    flex:1; background:var(--surface2); border:1px solid var(--border); border-radius:10px;
+    padding:0.8rem; text-align:center;
+  }
+  .stat-mini .val { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:900; }
+  .stat-mini .val.green { color:var(--green); }
+  .stat-mini .val.amber { color:var(--gold); }
+  .stat-mini .lbl { font-size:0.7rem; color:var(--muted2); margin-top:0.2rem; }
+
+  /* ── TOPIC FILTERS ── */
+  .filter-list { display:flex; flex-direction:column; gap:0.4rem; }
+  .topic-filter-btn {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0.55rem 0.8rem; border-radius:8px; border:1px solid transparent;
+    background:transparent; color:var(--muted2); font-family:'DM Sans',sans-serif;
+    font-size:0.82rem; cursor:pointer; transition:all 0.15s; text-align:left;
+  }
+  .topic-filter-btn:hover { background:var(--surface2); color:var(--text); }
+  .topic-filter-btn.active { background:rgba(212,168,67,0.1); color:var(--gold); border-color:rgba(212,168,67,0.2); }
+  .topic-count { font-size:0.7rem; color:var(--muted); background:var(--surface2); padding:0.1rem 0.4rem; border-radius:5px; }
+
+  /* ── BAND FILTERS ── */
+  .band-row { display:flex; gap:0.5rem; flex-wrap:wrap; }
+  .band-filter-btn {
+    padding:0.4rem 0.9rem; border-radius:7px; border:1px solid var(--border);
+    background:var(--surface2); color:var(--muted2); font-family:'DM Sans',sans-serif;
+    font-size:0.8rem; cursor:pointer; transition:all 0.15s;
+  }
+  .band-filter-btn.active { border-color:rgba(212,168,67,0.3); color:var(--gold); background:rgba(212,168,67,0.1); }
+
+  /* ── LIGHT MODE ── */
+  body.light {
+    --bg:#f7f6f2; --surface:#ffffff; --surface2:#eeede8;
+    --border:#dedad2; --text:#1c1c1a; --muted:#a0998e; --muted2:#6e6b63;
+  }
+  body.light .topbar { background:rgba(247,246,242,0.95); }
+
+  @media(max-width:768px){ .main{margin-left:0;} .sidebar{display:none;} }
 </style>
 </head>
 <body>
 
-<!-- LEFT PANEL -->
-<div class="left-panel">
-  <div class="logo"><a href="file:///C:/Users/Nodirbek/Downloads/index.html">Band<span>Up</span></a></div>
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <span class="logo-band">Band</span><span class="logo-wise">Wise</span>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Practice</div>
+    <a class="nav-item" href="dashboard.html"><span class="icon">🏠</span> Dashboard</a>
+    <a class="nav-item" href="reading.html"><span class="icon">📖</span> Reading</a>
+    <a class="nav-item" href="writing.html"><span class="icon">✍️</span> Writing</a>
+    <a class="nav-item" href="listening.html"><span class="icon">🎧</span> Listening</a>
+    <a class="nav-item" href="speaking.html"><span class="icon">🎤</span> Speaking</a>
+    <a class="nav-item" href="mock.html"><span class="icon">📋</span> Mock Test</a>
+    <div class="nav-section-label" style="margin-top:0.5rem">Explore</div>
+    <a class="nav-item" href="recent.html"><span class="icon">🕐</span> Recent</a>
+    <a class="nav-item" href="articles.html"><span class="icon">📰</span> Articles</a>
+    <a class="nav-item active" href="vocabulary.html"><span class="icon">📚</span> Vocabulary</a>
+    <div class="nav-section-label" style="margin-top:0.5rem">Account</div>
+    <a class="nav-item" href="pricing-page.html"><span class="icon">⭐</span> Upgrade</a>
+    <a class="nav-item" href="settings.html"><span class="icon">⚙️</span> Settings</a>
+  </nav>
+  <div class="sidebar-bottom">
+    <div class="user-chip">
+      <div class="avatar" id="userAvatar">?</div>
+      <div>
+        <div class="user-name" id="userName">Loading...</div>
+        <div class="user-plan">⭐ Free Plan</div>
+      </div>
+    </div>
+    <button class="btn-logout" onclick="handleLogout()">🚪 Log Out</button>
+  </div>
+</aside>
 
-  <div class="left-content">
-    <h2>Achieve your<br><em>target band</em><br>score today</h2>
-    <p>Join over 12,000 students who improved their IELTS score with BandUp's AI-powered platform.</p>
-    <div class="left-features">
-      <div class="left-feat"><div class="icon">📖</div> Full Reading &amp; Writing practice tests</div>
-      <div class="left-feat"><div class="icon">🤖</div> AI feedback on every essay you write</div>
-      <div class="left-feat"><div class="icon">🎧</div> 200+ Listening tracks with transcripts</div>
-      <div class="left-feat"><div class="icon">📊</div> Track your progress and band scores</div>
-      <div class="left-feat"><div class="icon">🎯</div> Personalized study plan for your goals</div>
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <h1>Vocabulary</h1>
+    <div class="topbar-right">
+      <button class="btn-theme" id="themeToggle" onclick="toggleTheme()">🌙</button>
     </div>
   </div>
 
-  <div class="testimonial-mini">
-    <div class="stars">★★★★★</div>
-    <p>"I went from Band 6 to Band 7.5 in just 8 weeks. The AI writing feedback was the biggest difference for me."</p>
-    <div class="author">— Sara A., Pakistan · Got into University of Leeds</div>
-  </div>
-</div>
+  <div class="content">
 
-<!-- RIGHT PANEL -->
-<div class="right-panel">
-  <div class="auth-box">
+    <!-- LEFT -->
+    <div class="left-col">
 
-    <div class="auth-tabs">
-      <button class="auth-tab active" onclick="switchTab(&#39;login&#39;)">Log In</button>
-      <button class="auth-tab" onclick="switchTab(&#39;signup&#39;)">Sign Up</button>
-    </div>
-
-    <!-- SUCCESS STATE -->
-    <div class="success-state" id="successState">
-      <div class="success-icon">🎉</div>
-      <h3>You're all set!</h3>
-      <p>Welcome to BandUp. Let's start improving your band score.</p>
-      <button class="btn-submit" onclick="location.href=&#39;dashboard.html&#39;" style="margin-top:0.5rem">Go to Dashboard →</button>
-    </div>
-
-    <!-- LOGIN FORM -->
-    <div class="form-panel active" id="loginPanel">
-      <div class="auth-title">Welcome <em>back</em></div>
-      <div class="auth-subtitle">Continue your IELTS journey</div>
-
-      <div class="form-group">
-        <label class="form-label">Email</label>
-        <input type="email" class="form-input" id="loginEmail" placeholder="you@email.com">
-        <div class="form-error" id="loginEmailErr">Please enter a valid email address.</div>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Password</label>
-        <input type="password" class="form-input" id="loginPassword" placeholder="••••••••">
-        <div class="form-error" id="loginPassErr">Incorrect email or password.</div>
-      </div>
-
-      <div class="forgot-link"><a href="file:///C:/Users/Nodirbek/Downloads/login.html#">Forgot password?</a></div>
-
-      <button class="btn-submit" id="loginBtn" onclick="handleLogin()">Log In</button>
-
-      <div class="divider">or continue with</div>
-      <button class="btn-google" onclick="handleGoogle()">
-        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"></path><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"></path><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"></path><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"></path></svg>
-        Continue with Google
-      </button>
-
-      <div class="switch-text">Don't have an account? <a onclick="switchTab(&#39;signup&#39;)">Sign up free</a></div>
-    </div>
-
-    <!-- SIGNUP FORM -->
-    <div class="form-panel" id="signupPanel">
-      <div class="auth-title">Join <em>BandUp</em></div>
-      <div class="auth-subtitle">Free to start — no credit card needed</div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">First Name</label>
-          <input type="text" class="form-input" id="signupFirst" placeholder="Ahmed">
+      <!-- MODE + PROGRESS -->
+      <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;">
+        <div class="mode-switcher">
+          <button class="mode-btn active" data-mode="flashcard" onclick="VocabApp.setMode('flashcard')">🃏 Flashcards</button>
+          <button class="mode-btn" data-mode="quiz" onclick="VocabApp.setMode('quiz')">🧠 Quiz</button>
         </div>
-        <div class="form-group">
-          <label class="form-label">Last Name</label>
-          <input type="text" class="form-input" id="signupLast" placeholder="Khan">
+        <div class="progress-row" style="flex:1; max-width:260px;">
+          <div class="progress-track"><div class="progress-fill" id="progress-bar"></div></div>
+          <span class="progress-label" id="progress-label">0 / 0</span>
         </div>
       </div>
 
-      <div class="form-group">
-        <label class="form-label">Email</label>
-        <input type="email" class="form-input" id="signupEmail" placeholder="you@email.com">
-        <div class="form-error" id="signupEmailErr">Please enter a valid email.</div>
-      </div>
+      <!-- VOCAB AREA -->
+      <div id="vocab-area"></div>
 
-      <div class="form-group">
-        <label class="form-label">Target Band Score</label>
-        <select class="form-input" id="signupBand" style="cursor:pointer">
-          <option value="">Select your goal...</option>
-          <option>6.0</option><option>6.5</option><option>7.0</option>
-          <option>7.5</option><option>8.0</option><option>8.5+</option>
-        </select>
-      </div>
+    </div>
 
-      <div class="form-group">
-        <label class="form-label">Password</label>
-        <input type="password" class="form-input" id="signupPassword" placeholder="Create a strong password" oninput="checkStrength(this.value)">
-        <div class="password-strength">
-          <div class="strength-bar">
-            <div class="strength-seg" id="s1"></div>
-            <div class="strength-seg" id="s2"></div>
-            <div class="strength-seg" id="s3"></div>
-            <div class="strength-seg" id="s4"></div>
+    <!-- RIGHT -->
+    <div class="right-col">
+
+      <!-- STATS -->
+      <div class="panel">
+        <div class="panel-header">📊 Session Stats</div>
+        <div class="panel-body">
+          <div class="stat-mini-row">
+            <div class="stat-mini">
+              <div class="val green" id="stats-known">0</div>
+              <div class="lbl">Known</div>
+            </div>
+            <div class="stat-mini">
+              <div class="val amber" id="stats-learning">0</div>
+              <div class="lbl">Learning</div>
+            </div>
           </div>
-          <div class="strength-label" id="strengthLabel">Enter a password</div>
         </div>
-        <div class="form-error" id="signupPassErr">Password must be at least 8 characters.</div>
       </div>
 
-      <div class="checkbox-row">
-        <input type="checkbox" id="agreeTerms">
-        <label for="agreeTerms">I agree to the <a href="file:///C:/Users/Nodirbek/Downloads/login.html#">Terms of Service</a> and <a href="file:///C:/Users/Nodirbek/Downloads/login.html#">Privacy Policy</a></label>
+      <!-- TOPIC FILTER -->
+      <div class="panel">
+        <div class="panel-header">📂 Filter by Topic</div>
+        <div class="panel-body" style="padding:0.7rem;">
+          <div class="filter-list">
+            <button class="topic-filter-btn active" data-id="all" onclick="VocabApp.setFilterTopic('all')">
+              <span>All topics</span>
+              <span class="topic-count">80</span>
+            </button>
+            <button class="topic-filter-btn" data-id="silk-road" onclick="VocabApp.setFilterTopic('silk-road')">
+              <span>🏛 Silk Road</span>
+              <span class="topic-count" id="count-silk-road">10</span>
+            </button>
+            <button class="topic-filter-btn" data-id="ocean-plastic" onclick="VocabApp.setFilterTopic('ocean-plastic')">
+              <span>🌍 Ocean Plastic</span>
+              <span class="topic-count" id="count-ocean-plastic">10</span>
+            </button>
+            <button class="topic-filter-btn" data-id="sleep-science" onclick="VocabApp.setFilterTopic('sleep-science')">
+              <span>🧠 Sleep Science</span>
+              <span class="topic-count" id="count-sleep-science">10</span>
+            </button>
+            <button class="topic-filter-btn" data-id="crispr" onclick="VocabApp.setFilterTopic('crispr')">
+              <span>🔬 CRISPR</span>
+              <span class="topic-count" id="count-crispr">10</span>
+            </button>
+            <button class="topic-filter-btn" data-id="gig-economy" onclick="VocabApp.setFilterTopic('gig-economy')">
+              <span>💼 Gig Economy</span>
+              <span class="topic-count" id="count-gig-economy">10</span>
+            </button>
+            <button class="topic-filter-btn" data-id="dystopian" onclick="VocabApp.setFilterTopic('dystopian')">
+              <span>📚 Dystopian Fiction</span>
+              <span class="topic-count" id="count-dystopian">10</span>
+            </button>
+            <button class="topic-filter-btn" data-id="coffee" onclick="VocabApp.setFilterTopic('coffee')">
+              <span>☕ Coffee</span>
+              <span class="topic-count" id="count-coffee">10</span>
+            </button>
+            <button class="topic-filter-btn" data-id="gut-microbiome" onclick="VocabApp.setFilterTopic('gut-microbiome')">
+              <span>🏥 Gut Microbiome</span>
+              <span class="topic-count" id="count-gut-microbiome">10</span>
+            </button>
+          </div>
+        </div>
       </div>
 
-      <button class="btn-submit" id="signupBtn" onclick="handleSignup()">Create Free Account</button>
+      <!-- BAND FILTER -->
+      <div class="panel">
+        <div class="panel-header">🎯 Filter by Band</div>
+        <div class="panel-body">
+          <div class="band-row">
+            <button class="band-filter-btn active" data-band="all" onclick="VocabApp.setFilterBand('all')">All</button>
+            <button class="band-filter-btn" data-band="6" onclick="VocabApp.setFilterBand('6')">Band 6</button>
+            <button class="band-filter-btn" data-band="7" onclick="VocabApp.setFilterBand('7')">Band 7</button>
+            <button class="band-filter-btn" data-band="8" onclick="VocabApp.setFilterBand('8')">Band 8</button>
+          </div>
+        </div>
+      </div>
 
-      <div class="divider">or continue with</div>
-      <button class="btn-google" onclick="handleGoogle()">
-        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"></path><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"></path><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"></path><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"></path></svg>
-        Continue with Google
-      </button>
-
-      <div class="switch-text">Already have an account? <a onclick="switchTab(&#39;login&#39;)">Log in</a></div>
     </div>
-
   </div>
 </div>
 
+<script src="vocabulary-data.js"></script>
+<script src="vocabulary-logic.js"></script>
 <script>
-  function switchTab(tab) {
-    document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active', (tab==='login'&&i===0)||(tab==='signup'&&i===1)));
-    document.getElementById('loginPanel').classList.toggle('active', tab==='login');
-    document.getElementById('signupPanel').classList.toggle('active', tab==='signup');
+  // ── SUPABASE ──
+  const SUPABASE_URL = 'https://xiyeuhchpllqlwmlkcma.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_x3yErNcERzTk66ksbsBGEg_5AFfbeAz';
+  const { createClient } = supabase;
+  const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // ── AUTH CHECK ──
+  sb.auth.getSession().then(({ data }) => {
+    if (!data.session) { location.href = 'login.html'; return; }
+    loadUser(data.session.user);
+  });
+
+  function loadUser(user) {
+    const meta = user.user_metadata || {};
+    const fullName = meta.full_name || meta.name || '';
+    const firstName = fullName.split(' ')[0] || user.email.split('@')[0];
+    document.getElementById('userName').textContent = fullName || firstName;
+    const av = document.getElementById('userAvatar');
+    if (av) av.textContent = firstName[0].toUpperCase();
   }
 
-  function checkStrength(val) {
-    const segs = [document.getElementById('s1'),document.getElementById('s2'),document.getElementById('s3'),document.getElementById('s4')];
-    const lbl = document.getElementById('strengthLabel');
-    segs.forEach(s => s.className = 'strength-seg');
-    if(!val) { lbl.textContent='Enter a password'; return; }
-    let score = 0;
-    if(val.length >= 8) score++;
-    if(/[A-Z]/.test(val)) score++;
-    if(/[0-9]/.test(val)) score++;
-    if(/[^A-Za-z0-9]/.test(val)) score++;
-    const cls = score<=1?'weak':score<=2?'medium':'strong';
-    const labels = {weak:'Weak',medium:'Medium',strong:'Strong'};
-    for(let i=0;i<score;i++) segs[i].classList.add(cls);
-    lbl.textContent = labels[cls] || '';
-    lbl.style.color = cls==='weak'?'var(--red)':cls==='medium'?'var(--gold)':'var(--green)';
+  async function handleLogout() {
+    await sb.auth.signOut();
+    location.href = 'login.html';
   }
 
-  function handleLogin() {
-    const email = document.getElementById('loginEmail').value;
-    const pass = document.getElementById('loginPassword').value;
-    let valid = true;
-
-    document.getElementById('loginEmailErr').classList.remove('show');
-    document.getElementById('loginPassErr').classList.remove('show');
-
-    if(!email || !email.includes('@')) {
-      document.getElementById('loginEmailErr').classList.add('show');
-      document.getElementById('loginEmail').classList.add('error');
-      valid = false;
-    }
-    if(!pass) {
-      document.getElementById('loginPassErr').classList.add('show');
-      valid = false;
-    }
-    if(!valid) return;
-
-    const btn = document.getElementById('loginBtn');
-    btn.textContent = 'Logging in';
-    btn.classList.add('loading');
-    setTimeout(() => {
-      btn.classList.remove('loading');
-      document.getElementById('loginPanel').style.display = 'none';
-      document.querySelector('.auth-tabs').style.display = 'none';
-      document.getElementById('successState').classList.add('show');
-    }, 1500);
+  // ── THEME ──
+  (function() {
+    const theme = localStorage.getItem('bandwise_theme') || 'dark';
+    if (theme === 'light') { document.body.classList.add('light'); document.getElementById('themeToggle').textContent = '☀️'; }
+  })();
+  function toggleTheme() {
+    const isLight = document.body.classList.toggle('light');
+    localStorage.setItem('bandwise_theme', isLight ? 'light' : 'dark');
+    document.getElementById('themeToggle').textContent = isLight ? '☀️' : '🌙';
   }
 
-  function handleSignup() {
-    const email = document.getElementById('signupEmail').value;
-    const pass = document.getElementById('signupPassword').value;
-    const agreed = document.getElementById('agreeTerms').checked;
-    let valid = true;
-
-    document.getElementById('signupEmailErr').classList.remove('show');
-    document.getElementById('signupPassErr').classList.remove('show');
-
-    if(!email || !email.includes('@')) {
-      document.getElementById('signupEmailErr').classList.add('show');
-      valid = false;
-    }
-    if(!pass || pass.length < 8) {
-      document.getElementById('signupPassErr').classList.add('show');
-      valid = false;
-    }
-    if(!agreed) { alert('Please agree to the Terms of Service to continue.'); valid = false; }
-    if(!valid) return;
-
-    const btn = document.getElementById('signupBtn');
-    btn.textContent = 'Creating account';
-    btn.classList.add('loading');
-    setTimeout(() => {
-      btn.classList.remove('loading');
-      document.getElementById('signupPanel').style.display = 'none';
-      document.querySelector('.auth-tabs').style.display = 'none';
-      document.getElementById('successState').classList.add('show');
-    }, 1600);
-  }
-
-  function handleGoogle() {
-    alert('Google login requires Firebase setup.\n\nConnect Firebase Auth to enable this — takes about 20 minutes!');
-  }
+  // ── INIT ──
+  document.addEventListener('DOMContentLoaded', () => VocabApp.init());
 </script>
-
-
-</body></html>
+</body>
+</html>
