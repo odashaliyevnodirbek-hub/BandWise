@@ -1,4 +1,4 @@
-// ── MOCK LOGIC v3 ──
+// ── MOCK LOGIC v4 ──
 const MockApp = (() => {
 
   let state = {
@@ -9,12 +9,15 @@ const MockApp = (() => {
     answers: {},
     timer: null,
     timeLeft: 0,
-    fontSize: 16,
+    readFontSize: 15,
+    listenFontSize: 16,
     hlColor: '#ffd70066',
-    _moveH: null, _upH: null,
+    _moveH: null,
+    _upH: null,
   };
 
-  // ── INIT ──
+  // ════════════ INIT / SELECTION ════════════
+
   function init() {
     state.phase = 'selection';
     const mocks = Object.keys(MOCK_DATA);
@@ -22,7 +25,7 @@ const MockApp = (() => {
       <div class="mock-selection">
         <div class="sel-top">
           <div class="sel-logo"><span class="logo-band">Band</span><span class="logo-wise">Wise</span></div>
-          <button class="btn-theme-sel" onclick="MockApp.toggleTheme()" id="themeBtn">${document.body.classList.contains('light')?'🌙':'☀️'}</button>
+          <button class="btn-theme-sel" id="themeBtn" onclick="MockApp.toggleTheme()">${document.body.classList.contains('light')?'🌙':'☀️'}</button>
         </div>
         <div class="sel-header">
           <h2>Choose your <em>Mock Test</em></h2>
@@ -39,6 +42,24 @@ const MockApp = (() => {
               </div>
               <div class="mock-card-btn">Start →</div>
             </div>`).join('')}
+          <div class="mock-card mock-card-soon">
+            <div class="mock-card-num">2</div>
+            <div class="mock-card-title">Mock Test 2</div>
+            <div class="mock-card-meta">
+              <span>📖 Reading · 40 Q · 60 min</span>
+              <span>🎧 Listening · 40 Q · 30 min</span>
+            </div>
+            <div class="mock-card-soon-badge">Coming Soon</div>
+          </div>
+          <div class="mock-card mock-card-soon">
+            <div class="mock-card-num">3</div>
+            <div class="mock-card-title">Mock Test 3</div>
+            <div class="mock-card-meta">
+              <span>📖 Reading · 40 Q · 60 min</span>
+              <span>🎧 Listening · 40 Q · 30 min</span>
+            </div>
+            <div class="mock-card-soon-badge">Coming Soon</div>
+          </div>
         </div>
         <a class="back-link" href="dashboard.html">← Back to Dashboard</a>
       </div>`;
@@ -46,8 +67,9 @@ const MockApp = (() => {
 
   function toggleTheme() {
     document.body.classList.toggle('light');
-    localStorage.setItem('bandwise_theme', document.body.classList.contains('light')?'light':'dark');
-    document.querySelectorAll('#themeBtn').forEach(b => b.textContent = document.body.classList.contains('light')?'🌙':'☀️');
+    localStorage.setItem('bandwise_theme', document.body.classList.contains('light') ? 'light' : 'dark');
+    const btn = document.getElementById('themeBtn');
+    if (btn) btn.textContent = document.body.classList.contains('light') ? '🌙' : '☀️';
   }
 
   function selectMock(id) {
@@ -71,7 +93,7 @@ const MockApp = (() => {
         </div>
         <div class="intro-rules">
           <p>⏱ Timer starts when you press Start and cannot be paused.</p>
-          <p>🖊 Highlight text using your mouse (reading) or select sentences (listening).</p>
+          <p>🖊 Highlight text using your mouse.</p>
           <p>↔ Drag the divider to resize passage and question panels.</p>
           <p>📝 Navigate between passages/sections using the buttons at the bottom.</p>
         </div>
@@ -80,31 +102,33 @@ const MockApp = (() => {
       </div>`;
   }
 
-  // ════════════════════════════════
-  // READING
-  // ════════════════════════════════
+  // ════════════ READING ════════════
+
+  const P_RANGES = [[1,13],[14,26],[27,40]];
 
   function startReading() {
     state.phase = 'reading';
     state.passage = 0;
     state.timeLeft = MOCK_DATA[state.mockId].reading.timeLimit * 60;
     enterFS();
-    renderReading();
+    _renderReading();
     startTimer('reading');
   }
 
-  // passage→question number ranges
-  const P_RANGES = [[1,13],[14,26],[27,40]];
+  function goPassage(i) {
+    state.passage = i;
+    _renderReading();
+  }
 
-  function renderReading() {
+  function _renderReading() {
     _removeDrag();
     const mock = MOCK_DATA[state.mockId];
-    const p = mock.reading.passages[state.passage];
+    const p    = mock.reading.passages[state.passage];
     const total = mock.reading.passages.length;
 
     document.getElementById('mock-main').innerHTML = `
-      <div class="mock-reading-wrap">
-        <!-- TOP BAR -->
+      <div class="mock-reading-wrap" id="reading-wrap">
+
         <div class="mock-topbar">
           <div class="mock-topbar-left">
             <span class="mock-title">${mock.title}</span>
@@ -120,41 +144,35 @@ const MockApp = (() => {
               <button class="hl-btn hl-erase ${state.hlColor==='erase'?'active':''}" data-color="erase" onclick="MockApp.setHL(this)">✕</button>
             </div>
             <div class="font-controls">
-              <span class="hl-label">Size:</span>
-              <button class="font-btn" style="font-size:11px" onclick="MockApp.setReadFont(13)">A</button>
-              <button class="font-btn" style="font-size:14px" onclick="MockApp.setReadFont(16)">A</button>
-              <button class="font-btn" style="font-size:17px" onclick="MockApp.setReadFont(19)">A</button>
-              <button class="font-btn" style="font-size:20px" onclick="MockApp.setReadFont(22)">A</button>
+              <button class="font-btn" onclick="MockApp.changeReadFont(-2)">A−</button>
+              <button class="font-btn" onclick="MockApp.changeReadFont(2)">A+</button>
             </div>
             <button class="btn-icon" onclick="MockApp.toggleTheme()">${document.body.classList.contains('light')?'🌙':'☀️'}</button>
             <button class="btn-icon" onclick="MockApp.toggleFS()">⛶</button>
           </div>
         </div>
 
-        <!-- SPLIT -->
         <div class="mock-split" id="mock-split">
           <div class="mock-passage-panel" id="passage-panel">
             <div class="passage-nav-tabs">
-              ${mock.reading.passages.map((pp,i) => `
-                <button class="ptab ${i===state.passage?'active':''}" onclick="MockApp.goPassage(${i})">Passage ${i+1}</button>
-              `).join('')}
+              ${mock.reading.passages.map((_,i) =>
+                `<button class="ptab ${i===state.passage?'active':''}" onclick="MockApp.goPassage(${i})">Passage ${i+1}</button>`
+              ).join('')}
             </div>
-            <div class="passage-content" id="passage-content" style="font-size:${state.fontSize}px">
+            <div class="passage-content" id="passage-content" style="font-size:${state.readFontSize}px">
               <h3 class="passage-title">${p.title}</h3>
-              ${p.subtitle?`<p class="passage-subtitle">${p.subtitle}</p>`:''}
-              <div class="passage-text" onmouseup="MockApp.doHL(event)">${fmtText(p.text)}</div>
+              ${p.subtitle ? `<p class="passage-subtitle">${p.subtitle}</p>` : ''}
+              <div class="passage-text" onmouseup="MockApp.doHL()">${_fmtText(p.text)}</div>
             </div>
           </div>
           <div class="drag-handle" id="drag-handle"><div class="drag-dots">⋮</div></div>
           <div class="mock-questions-panel" id="questions-panel">
-            <div class="questions-scroll">${renderGroups(p.questionGroups)}</div>
+            <div class="questions-scroll">${_renderGroups(p.questionGroups)}</div>
           </div>
         </div>
 
-        <!-- ANSWER BOXES: only current passage range -->
-        <div class="mock-answer-boxes" id="answer-boxes">${renderReadBoxes()}</div>
+        <div class="mock-answer-boxes" id="answer-boxes">${_readBoxes()}</div>
 
-        <!-- BOTTOM NAV -->
         <div class="mock-bottom-nav">
           ${state.passage > 0
             ? `<button class="btn-nav" onclick="MockApp.goPassage(${state.passage-1})">← Passage ${state.passage}</button>`
@@ -170,34 +188,26 @@ const MockApp = (() => {
     _initDrag();
   }
 
-  function setReadFont(size) {
-    state.fontSize = size;
-    const el = document.getElementById('passage-content');
-    if (el) el.style.fontSize = size + 'px';
+  // A+/A- for reading — changes font on passage AND questions
+  function changeReadFont(delta) {
+    state.readFontSize = Math.max(11, Math.min(26, state.readFontSize + delta));
+    const pc = document.getElementById('passage-content');
+    const qs = document.querySelector('.questions-scroll');
+    if (pc) pc.style.fontSize = state.readFontSize + 'px';
+    if (qs) qs.style.fontSize = state.readFontSize + 'px';
   }
 
-  function goPassage(i) {
-    state.passage = i;
-    renderReading();      // full re-render — safe because timer runs independently
-  }
-
-  function renderReadBoxes() {
+  function _readBoxes() {
     const [from, to] = P_RANGES[state.passage];
-    let html = `<div class="answer-box-group">
-      <div class="answer-box-label">PASSAGE ${state.passage+1}</div>
-      <div class="answer-box-nums">`;
+    let html = `<div class="answer-box-group"><div class="answer-box-label">PASSAGE ${state.passage+1}</div><div class="answer-box-nums">`;
     for (let n = from; n <= to; n++) {
-      const done = _answered(state.answers[n]);
-      html += `<div class="answer-box ${done?'answered':''}" onclick="MockApp.scrollToQ(${n})">${n}</div>`;
+      html += `<div class="answer-box ${_answered(state.answers[n])?'answered':''}" onclick="MockApp.scrollToQ(${n})">${n}</div>`;
     }
     return html + '</div></div>';
   }
 
-  // ════════════════════════════════
-  // LISTENING
-  // ════════════════════════════════
+  // ════════════ LISTENING ════════════
 
-  // section→question number ranges
   const L_RANGES = [[1,10],[11,20],[21,30],[31,40]];
 
   function startListening() {
@@ -205,18 +215,23 @@ const MockApp = (() => {
     state.listenPart = 0;
     state.timeLeft = MOCK_DATA[state.mockId].listening.timeLimit * 60;
     enterFS();
-    renderListening();
+    _renderListening();
     startTimer('listening');
   }
 
-  function renderListening() {
-    const mock = MOCK_DATA[state.mockId];
-    const part = mock.listening.parts[state.listenPart];
+  function goPart(i) {
+    state.listenPart = i;
+    _renderListening();
+  }
+
+  function _renderListening() {
+    const mock  = MOCK_DATA[state.mockId];
+    const part  = mock.listening.parts[state.listenPart];
     const total = mock.listening.parts.length;
 
     document.getElementById('mock-main').innerHTML = `
       <div class="mock-listening-wrap">
-        <!-- TOP BAR -->
+
         <div class="mock-topbar">
           <div class="mock-topbar-left">
             <span class="mock-title">${mock.title}</span>
@@ -232,18 +247,14 @@ const MockApp = (() => {
               <button class="hl-btn hl-erase ${state.hlColor==='erase'?'active':''}" data-color="erase" onclick="MockApp.setHL(this)">✕</button>
             </div>
             <div class="font-controls">
-              <span class="hl-label">Size:</span>
-              <button class="font-btn" style="font-size:11px" onclick="MockApp.setFont(13)">A</button>
-              <button class="font-btn" style="font-size:14px" onclick="MockApp.setFont(16)">A</button>
-              <button class="font-btn" style="font-size:17px" onclick="MockApp.setFont(19)">A</button>
-              <button class="font-btn" style="font-size:20px" onclick="MockApp.setFont(22)">A</button>
+              <button class="font-btn" onclick="MockApp.changeListenFont(-2)">A−</button>
+              <button class="font-btn" onclick="MockApp.changeListenFont(2)">A+</button>
             </div>
             <button class="btn-icon" onclick="MockApp.toggleTheme()">${document.body.classList.contains('light')?'🌙':'☀️'}</button>
             <button class="btn-icon" onclick="MockApp.toggleFS()">⛶</button>
           </div>
         </div>
 
-        <!-- AUDIO (shared, always visible) -->
         <div class="audio-player-bar">
           <audio id="mock-audio" controls style="width:100%;max-width:600px;">
             <source src="${mock.listening.audioUrl}" type="audio/mpeg">
@@ -251,20 +262,17 @@ const MockApp = (() => {
           <span class="audio-note">🎧 Use headphones · answer as the audio plays</span>
         </div>
 
-        <!-- CURRENT SECTION QUESTIONS -->
-        <div class="listening-questions" id="lq" style="font-size:${state.fontSize}px" onmouseup="MockApp.doHL(event)">
+        <div class="listening-questions" id="lq" style="font-size:${state.listenFontSize}px" onmouseup="MockApp.doHL()">
           <div class="listening-part">
             <h3 class="part-title">${part.title}</h3>
             <p class="part-instructions">${part.instructions}</p>
-            ${part.formTitle?`<div class="form-title-box">${part.formTitle}</div>`:''}
-            ${renderGroups(part.questionGroups)}
+            ${part.formTitle ? `<div class="form-title-box">${part.formTitle}</div>` : ''}
+            ${_renderGroups(part.questionGroups)}
           </div>
         </div>
 
-        <!-- ANSWER BOXES for this section -->
-        <div class="mock-answer-boxes" id="answer-boxes">${renderListenBoxes()}</div>
+        <div class="mock-answer-boxes" id="answer-boxes">${_listenBoxes()}</div>
 
-        <!-- BOTTOM NAV -->
         <div class="mock-bottom-nav">
           ${state.listenPart > 0
             ? `<button class="btn-nav" onclick="MockApp.goPart(${state.listenPart-1})">← Section ${state.listenPart}</button>`
@@ -279,43 +287,33 @@ const MockApp = (() => {
     updateTimer();
   }
 
-  function goPart(i) {
-    state.listenPart = i;
-    renderListening();
-  }
-
-  function setFont(size) {
-    state.fontSize = size;
+  function changeListenFont(delta) {
+    state.listenFontSize = Math.max(11, Math.min(26, state.listenFontSize + delta));
     const el = document.getElementById('lq');
-    if (el) el.style.fontSize = size + 'px';
+    if (el) el.style.fontSize = state.listenFontSize + 'px';
   }
 
-  function renderListenBoxes() {
+  function _listenBoxes() {
     const [from, to] = L_RANGES[state.listenPart];
-    let html = `<div class="answer-box-group">
-      <div class="answer-box-label">SECTION ${state.listenPart+1}</div>
-      <div class="answer-box-nums">`;
+    let html = `<div class="answer-box-group"><div class="answer-box-label">SECTION ${state.listenPart+1}</div><div class="answer-box-nums">`;
     for (let n = from; n <= to; n++) {
-      const done = _answered(state.answers[n]);
-      html += `<div class="answer-box ${done?'answered':''}" onclick="MockApp.scrollToQ(${n})">${n}</div>`;
+      html += `<div class="answer-box ${_answered(state.answers[n])?'answered':''}" onclick="MockApp.scrollToQ(${n})">${n}</div>`;
     }
     return html + '</div></div>';
   }
 
-  // ════════════════════════════════
-  // QUESTION RENDERING
-  // ════════════════════════════════
+  // ════════════ QUESTION RENDERING ════════════
 
-  function renderGroups(groups) { return groups.map(g => renderGroup(g)).join(''); }
+  function _renderGroups(groups) { return groups.map(g => _renderGroup(g)).join(''); }
 
-  function renderGroup(g) {
+  function _renderGroup(g) {
     let html = `<div class="q-group"><p class="q-instructions">${g.instructions}</p>`;
     if (g.title) html += `<div class="q-group-title">${g.title}</div>`;
 
     switch (g.type) {
       case 'tfng':
       case 'yng': {
-        const opts = g.type==='tfng' ? ['TRUE','FALSE','NOT GIVEN'] : ['YES','NO','NOT GIVEN'];
+        const opts = g.type === 'tfng' ? ['TRUE','FALSE','NOT GIVEN'] : ['YES','NO','NOT GIVEN'];
         html += g.questions.map(q => `
           <div class="q-item" id="qi-${q.id}">
             <span class="q-num">${q.id}</span>
@@ -355,7 +353,7 @@ const MockApp = (() => {
               <p class="q-text">${q.text||''}</p>
               <div class="q-options">
                 ${Object.entries(g.options).map(([k,v]) => {
-                  const saved = state.answers[q.id]||[];
+                  const saved = state.answers[q.id] || [];
                   return `<span class="q-option-label ${saved.includes(k)?'selected':''}"
                     onclick="MockApp.pickMulti('${q.id}','${k}',this)">
                     <span class="opt-key">${k}</span> ${v}
@@ -387,19 +385,19 @@ const MockApp = (() => {
             <span class="q-num">${q.id}</span>
             <div class="q-content">
               <p class="q-text">${q.text.replace('___',
-                `<input type="text" class="q-input" placeholder="..." value="${state.answers[q.id]||''}" oninput="MockApp.save(${q.id},this.value)">`
-              )}</p>
+                `<input type="text" class="q-input" placeholder="..." value="${state.answers[q.id]||''}"
+                  oninput="MockApp.save(${q.id},this.value)">`)}</p>
             </div>
           </div>`).join('');
         break;
       case 'summary_word_list': {
         html += `<div class="word-list">${Object.entries(g.wordList).map(([k,v])=>
           `<span class="word-chip"><strong>${k}</strong> ${v}</span>`).join('')}</div>`;
-        const summary = g.summaryText.replace(/(\d+) ___/g,(m,num)=>{
-          const a = state.answers[parseInt(num)]||'';
+        const summary = g.summaryText.replace(/(\d+) ___/g, (m,num) => {
+          const a = state.answers[parseInt(num)] || '';
           return `${num} <select class="q-select-inline" onchange="MockApp.save(${num},this.value)">
             <option value="">...</option>
-            ${Object.keys(g.wordList).map(k=>`<option value="${k}" ${a===k?'selected':''}>${k}</option>`).join('')}
+            ${Object.keys(g.wordList).map(k => `<option value="${k}" ${a===k?'selected':''}>${k}</option>`).join('')}
           </select>`;
         });
         html += `<p class="summary-text">${summary}</p>`;
@@ -413,8 +411,8 @@ const MockApp = (() => {
               <span class="q-num">${q.id}</span>
               <div class="q-content">
                 <p class="q-text">${q.text.replace('___',
-                  `<input type="text" class="q-input" placeholder="..." value="${state.answers[q.id]||''}" oninput="MockApp.save(${q.id},this.value)">`
-                )}</p>
+                  `<input type="text" class="q-input" placeholder="..." value="${state.answers[q.id]||''}"
+                    oninput="MockApp.save(${q.id},this.value)">`)}</p>
               </div>
             </div>`).join('');
           html += '</div>';
@@ -426,9 +424,10 @@ const MockApp = (() => {
             <span class="q-num">${q.id}</span>
             <div class="q-content" style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;">
               <span class="form-label">${q.label}</span>
-              ${q.prefix?`<span class="form-prefix">${q.prefix}</span>`:''}
-              <input type="text" class="q-input" placeholder="..." value="${state.answers[q.id]||''}" oninput="MockApp.save(${q.id},this.value)">
-              ${q.suffix?`<span class="form-suffix">${q.suffix}</span>`:''}
+              ${q.prefix ? `<span class="form-prefix">${q.prefix}</span>` : ''}
+              <input type="text" class="q-input" placeholder="..." value="${state.answers[q.id]||''}"
+                oninput="MockApp.save(${q.id},this.value)">
+              ${q.suffix ? `<span class="form-suffix">${q.suffix}</span>` : ''}
             </div>
           </div>`).join('');
         break;
@@ -436,9 +435,7 @@ const MockApp = (() => {
     return html + '</div>';
   }
 
-  // ════════════════════════════════
-  // ANSWER HANDLING
-  // ════════════════════════════════
+  // ════════════ ANSWER HANDLING ════════════
 
   function pick(id, value, el) {
     state.answers[id] = value;
@@ -469,17 +466,15 @@ const MockApp = (() => {
   function _updateBoxes() {
     const el = document.getElementById('answer-boxes');
     if (!el) return;
-    el.innerHTML = state.phase === 'listening' ? renderListenBoxes() : renderReadBoxes();
+    el.innerHTML = state.phase === 'listening' ? _listenBoxes() : _readBoxes();
   }
 
   function scrollToQ(num) {
     const el = document.getElementById(`qi-${num}`);
-    if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
-  // ════════════════════════════════
-  // HIGHLIGHT
-  // ════════════════════════════════
+  // ════════════ HIGHLIGHT ════════════
 
   function setHL(btn) {
     document.querySelectorAll('.hl-btn').forEach(b => b.classList.remove('active'));
@@ -519,9 +514,7 @@ const MockApp = (() => {
     sel.removeAllRanges();
   }
 
-  // ════════════════════════════════
-  // DRAG DIVIDER
-  // ════════════════════════════════
+  // ════════════ DRAG ════════════
 
   function _removeDrag() {
     if (state._moveH) { document.removeEventListener('mousemove', state._moveH); state._moveH = null; }
@@ -534,20 +527,16 @@ const MockApp = (() => {
     const pp     = document.getElementById('passage-panel');
     const qp     = document.getElementById('questions-panel');
     if (!handle || !split) return;
-
     let dragging = false, startX = 0, startW = 0;
-
     handle.addEventListener('mousedown', e => {
       dragging = true; startX = e.clientX; startW = pp.offsetWidth;
       document.body.style.cursor = 'col-resize';
       document.body.style.userSelect = 'none';
       e.preventDefault();
     });
-
     state._moveH = e => {
       if (!dragging) return;
-      const total = split.offsetWidth;
-      const nw = Math.max(180, Math.min(total - 180, startW + (e.clientX - startX)));
+      const nw = Math.max(180, Math.min(split.offsetWidth - 180, startW + e.clientX - startX));
       pp.style.flex = 'none'; pp.style.width = nw + 'px'; qp.style.flex = '1';
     };
     state._upH = () => {
@@ -559,9 +548,7 @@ const MockApp = (() => {
     document.addEventListener('mouseup',   state._upH);
   }
 
-  // ════════════════════════════════
-  // TIMER
-  // ════════════════════════════════
+  // ════════════ TIMER ════════════
 
   function startTimer(phase) {
     clearInterval(state.timer);
@@ -583,9 +570,7 @@ const MockApp = (() => {
     el.classList.toggle('timer-warning', state.timeLeft <= 300);
   }
 
-  // ════════════════════════════════
-  // FINISH / RESULTS
-  // ════════════════════════════════
+  // ════════════ FINISH / RESULTS ════════════
 
   function finishReading() {
     clearInterval(state.timer);
@@ -636,8 +621,8 @@ const MockApp = (() => {
     let rA={}, lA={}, rS=0, rT=0, lS=0, lT=0;
     mock.reading.passages.forEach(p => p.questionGroups.forEach(g => Object.assign(rA, g.answers)));
     mock.listening.parts.forEach(p => p.questionGroups.forEach(g => Object.assign(lA, g.answers)));
-    Object.entries(rA).forEach(([id,c])=>{ rT++; if(_chk(state.answers[id],c)) rS++; });
-    Object.entries(lA).forEach(([id,c])=>{ lT++; if(_chk(state.answers[id],c)) lS++; });
+    Object.entries(rA).forEach(([id,c]) => { rT++; if (_chk(state.answers[id], c)) rS++; });
+    Object.entries(lA).forEach(([id,c]) => { lT++; if (_chk(state.answers[id], c)) lS++; });
 
     document.getElementById('mock-main').innerHTML = `
       <div class="mock-results-screen">
@@ -665,11 +650,9 @@ const MockApp = (() => {
       </div>`;
   }
 
-  // ════════════════════════════════
-  // HELPERS
-  // ════════════════════════════════
+  // ════════════ HELPERS ════════════
 
-  function fmtText(text) {
+  function _fmtText(text) {
     return text.split('\n\n').map(p => p.trim()).filter(Boolean)
       .map(p => `<p>${p.replace(/\n/g,' ')}</p>`).join('');
   }
@@ -679,13 +662,14 @@ const MockApp = (() => {
   }
 
   function _chk(user, correct) {
+    if (!user) return false;
     if (Array.isArray(correct)) return Array.isArray(user) && correct.every(v => user.includes(v));
-    return user && user.toString().toLowerCase().trim() === correct.toString().toLowerCase().trim();
+    return user.toString().toLowerCase().trim() === correct.toString().toLowerCase().trim();
   }
 
   function _ansTable(answers) {
     return `<div class="results-table">${
-      Object.entries(answers).map(([id,correct]) => {
+      Object.entries(answers).map(([id, correct]) => {
         const user = state.answers[id] || '—';
         const ok = _chk(user, correct);
         return `<div class="result-row ${ok?'correct':'wrong'}">
@@ -701,17 +685,15 @@ const MockApp = (() => {
   function _band(score, type) {
     const r = [[39,9],[37,8.5],[35,8],[33,7.5],[30,7],[27,6.5],[23,6],[19,5.5],[15,5],[13,4.5]];
     const l = [[40,9],[39,8.5],[37,8],[35,7.5],[32,7],[30,6.5],[26,6],[23,5.5],[18,5],[16,4.5]];
-    for (const [min,band] of (type==='reading'?r:l)) if (score >= min) return band;
+    for (const [min, band] of (type==='reading' ? r : l)) if (score >= min) return band;
     return 4;
   }
 
   function enterFS() {
-    const el = document.documentElement;
-    (el.requestFullscreen || el.webkitRequestFullscreen || (()=>{})).call(el);
+    try { (document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen).call(document.documentElement); } catch(e){}
   }
   function exitFS() {
-    if (document.fullscreenElement || document.webkitFullscreenElement)
-      (document.exitFullscreen || document.webkitExitFullscreen || (()=>{})).call(document);
+    try { if (document.fullscreenElement || document.webkitFullscreenElement) (document.exitFullscreen || document.webkitExitFullscreen).call(document); } catch(e){}
   }
   function toggleFS() { document.fullscreenElement ? exitFS() : enterFS(); }
 
@@ -719,6 +701,6 @@ const MockApp = (() => {
     init, selectMock, startReading, goPassage, finishReading,
     showReadingAnswers, startListening, goPart, finishListening,
     save, pick, pickMulti, doHL, setHL, toggleFS, toggleTheme,
-    scrollToQ, setFont, setReadFont
+    scrollToQ, changeReadFont, changeListenFont
   };
 })();
