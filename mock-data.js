@@ -35,9 +35,9 @@ The warriors of a tribe required a different kind of cloak to help protect them.
               instructions: 'Complete the notes below. Choose NO MORE THAN TWO WORDS from the passage for each answer.',
               title: 'Maori cloaks',
               questions: [
-                { id: 7, text: 'Flax cloaks — sometimes adding ___ to the better cloaks' },
-                { id: 8, text: 'Designed without a ___' },
-                { id: 9, text: 'Tied at either the weather\'s neck or their ___' },
+                { id: 7,  text: 'Flax cloaks — sometimes adding ___ to the better cloaks' },
+                { id: 8,  text: 'Designed without a ___' },
+                { id: 9,  text: "Tied at either the wearer's neck or their ___" },
                 { id: 10, text: 'Flax cloaks offered no ___ during winter' },
                 { id: 11, text: 'Warrior cloaks — weavers had to use ___ to make cabbage tree fibres less stiff' },
                 { id: 12, text: 'Mud containing ___ was used to make the cloaks look black' },
@@ -50,7 +50,7 @@ The warriors of a tribe required a different kind of cloak to help protect them.
         {
           id: 'p2',
           title: 'Sleep should be prescribed: what those late nights out could be costing you',
-          subtitle: 'Leading neuroscientist Matthew Walker on why sleep deprivation is increasing our risk of cancer, heart attack and Alzheimer\'s – and what you can do about it',
+          subtitle: "Leading neuroscientist Matthew Walker on why sleep deprivation is increasing our risk of cancer, heart attack and Alzheimer's – and what you can do about it",
           text: `A    Matthew Walker dreads the question 'What do you do?' On aeroplane it usually means that while everyone else watches movies, he will find himself giving a talk for the benefit of passengers and crew alike. To be specific, Walker is the director of the Center for Human Sleep Science at the University of California. No wonder people long for his advice. As the line between work and leisure grows more blurred, rare is the person who doesn't worry about their sleep. Indeed, it's Walker's conviction that we are in the midst of a 'catastrophic sleep-loss epidemic'. He has now written Why We Sleep, the idea being that once people know of the powerful links between sleep loss and poor health, they will try harder to get the recommended eight hours a night. Sleep deprivation constitutes anything less than seven. 'No one is doing anything about it but things have to change. But when did you ever see a National Health Service poster urging sleep on people? When did a doctor prescribe, not sleeping pills, but sleep itself? It needs to be prioritized.'
 
 B    Why are we so sleep-deprived in this century? In 1942, less than 8% of the population was trying to survive on six hours or less sleep a night; in 2017, almost one in two people is. Some reasons are obvious, but Walker believes, too, that in the developed world sleep is strongly associated with weakness. 'We want to seem busy, and one way we express that is by proclaiming how little sleep we're getting. When I give lectures, people wait behind until there is no one around and then tell me quietly: "I seem to be one of those people who need eight or nine hours' sleep." It's embarrassing to say it in public.'
@@ -66,6 +66,7 @@ F    So what can individuals do to ensure they get the right amount of sleep? Fi
             {
               type: 'matching',
               instructions: 'The Reading Passage has six paragraphs, A–F. Which paragraph contains the following information? Write the correct letter, A–F.',
+              options: { A:'Paragraph A', B:'Paragraph B', C:'Paragraph C', D:'Paragraph D', E:'Paragraph E', F:'Paragraph F' },
               questions: [
                 { id: 14, text: 'A description of the difference between two types of sleep' },
                 { id: 15, text: 'A reason why people do not admit to needing a lot of sleep' },
@@ -87,34 +88,40 @@ F    So what can individuals do to ensure they get the right amount of sleep? Fi
               answers: { 19: 'blood pressure', 20: 'obesity crisis', 21: 'flu vaccine', 22: 'young children' }
             },
             {
-              type: 'mcq_multi',
-              instructions: 'Choose TWO letters, A–E. Which TWO things does Walker suggest people should do to improve their sleep?',
-              options: {
-                A: 'Use melatonin products sold by chemists',
-                B: 'Remove all technology from the bedroom',
-                C: 'Start a routine for preparing to sleep',
-                D: 'Use personal devices to record sleep data',
-                E: 'Ask employers to start work at a later time'
-              },
-              questions: [
-                { id: '23-24', text: 'Which TWO things does Walker suggest?' }
-              ],
-              answers: { '23-24': ['C', 'D'] }
+              type: 'mcq',
+              instructions: 'Choose TWO letters, A–E. Which TWO things does Walker suggest? Choose your FIRST answer.',
+              questions: [{
+                id: 23, text: 'First answer:',
+                options: { A:'Use melatonin products sold by chemists', B:'Remove all technology from the bedroom', C:'Start a routine for preparing to sleep', D:'Use personal devices to record sleep data', E:'Ask employers to start work at a later time' }
+              }],
+              answers: { 23: 'C' }
             },
             {
-              type: 'mcq_multi',
-              instructions: 'Choose TWO letters, A–E. Which TWO things are stated about Matthew Walker in the passage?',
-              options: {
-                A: 'He finds it stressful when people ask about his work in social situations.',
-                B: 'His book contains the same information he presents in his lectures.',
-                C: 'He has researched the link between sleep and physical fitness.',
-                D: 'He has explored the connection between sleep and emotional health.',
-                E: 'He follows his own advice about how much sleep to get each night.'
-              },
-              questions: [
-                { id: '25-26', text: 'Which TWO things are stated about Walker?' }
-              ],
-              answers: { '25-26': ['A', 'E'] }
+              type: 'mcq',
+              instructions: 'Choose your SECOND answer (Walker suggestions).',
+              questions: [{
+                id: 24, text: 'Second answer:',
+                options: { A:'Use melatonin products sold by chemists', B:'Remove all technology from the bedroom', C:'Start a routine for preparing to sleep', D:'Use personal devices to record sleep data', E:'Ask employers to start work at a later time' }
+              }],
+              answers: { 24: 'D' }
+            },
+            {
+              type: 'mcq',
+              instructions: 'Choose TWO letters, A–E. Which TWO things are stated about Matthew Walker? Choose your FIRST answer.',
+              questions: [{
+                id: 25, text: 'First answer:',
+                options: { A:'He finds it stressful when people ask about his work in social situations.', B:'His book contains the same information he presents in his lectures.', C:'He has researched the link between sleep and physical fitness.', D:'He has explored the connection between sleep and emotional health.', E:'He follows his own advice about how much sleep to get each night.' }
+              }],
+              answers: { 25: 'A' }
+            },
+            {
+              type: 'mcq',
+              instructions: 'Choose your SECOND answer (about Walker).',
+              questions: [{
+                id: 26, text: 'Second answer:',
+                options: { A:'He finds it stressful when people ask about his work in social situations.', B:'His book contains the same information he presents in his lectures.', C:'He has researched the link between sleep and physical fitness.', D:'He has explored the connection between sleep and emotional health.', E:'He follows his own advice about how much sleep to get each night.' }
+              }],
+              answers: { 26: 'E' }
             }
           ]
         },
@@ -138,7 +145,7 @@ Successful development is taking place in many urban areas around the world, and
               type: 'summary_word_list',
               instructions: 'Complete the summary using the list of words, A–H, below. Write the correct letter, A–H.',
               title: 'Survey on problems facing city dwellers',
-              summaryText: 'The World Health Organisation has recently published data concerning 27 ___ in cities. This data should indicate the governments that they must think about ways to improve the lives of residents. According to a Richmond-Carver survey, the worst problem facing many city dwellers was 28 ___. The survey also indicated that in some cities, poor 29 ___ can impact dramatically on the economy. Another issue seems to be 30 ___, although this is more often mentioned by survey participants in European countries. Questions on people\'s views on the need for 31 ___ were unfortunately omitted from the survey, but countries like Singapore already seem to be making progress in this respect.',
+              summaryText: "The World Health Organisation has recently published data concerning 27 ___ in cities. This data should indicate the governments that they must think about ways to improve the lives of residents. According to a Richmond-Carver survey, the worst problem facing many city dwellers was 28 ___. The survey also indicated that in some cities, poor 29 ___ can impact dramatically on the economy. Another issue seems to be 30 ___, although this is more often mentioned by survey participants in European countries. Questions on people's views on the need for 31 ___ were unfortunately omitted from the survey, but countries like Singapore already seem to be making progress in this respect.",
               wordList: {
                 A: 'noise pollution', B: 'recycling facilities', C: 'green areas',
                 D: 'employment opportunities', E: 'population growth', F: 'affordable housing',
@@ -154,46 +161,10 @@ Successful development is taking place in many urban areas around the world, and
               type: 'mcq',
               instructions: 'Choose the correct letter, A, B, C or D.',
               questions: [
-                {
-                  id: 32,
-                  text: 'When staying in New York, the writer is frustrated by the fact that',
-                  options: {
-                    A: 'healthy food cannot easily be obtained.',
-                    B: 'bad road design causes daily traffic problems.',
-                    C: 'certain venues cannot be reached by foot.',
-                    D: 'visitors are all directed to the same kinds of place.'
-                  }
-                },
-                {
-                  id: 33,
-                  text: 'What does the writer say about security features in new housing developments?',
-                  options: {
-                    A: 'Developers add them even though residents have not asked for them.',
-                    B: 'They prevent residents from forming a community beyond their fence.',
-                    C: 'They discourage residents from taking exercise outside.',
-                    D: 'Residents feel frightened when they leave the development.'
-                  }
-                },
-                {
-                  id: 34,
-                  text: 'What point does the writer make about planning consultations?',
-                  options: {
-                    A: 'Planners and developers distrust online forms of communication.',
-                    B: 'Planners and developers tend to build conventional types of buildings.',
-                    C: 'They rely on the opinions of a narrow range of people.',
-                    D: 'Planners and developers use them to increase their profits.'
-                  }
-                },
-                {
-                  id: 35,
-                  text: 'What does the writer say about Container City?',
-                  options: {
-                    A: 'The building materials used are made locally.',
-                    B: 'It succeeds because of its clever design.',
-                    C: 'It is popular with students for the same reasons as similar projects.',
-                    D: 'Its location makes it suitable for development.'
-                  }
-                }
+                { id: 32, text: 'When staying in New York, the writer is frustrated by the fact that', options: { A:'healthy food cannot easily be obtained.', B:'bad road design causes daily traffic problems.', C:'certain venues cannot be reached by foot.', D:'visitors are all directed to the same kinds of place.' } },
+                { id: 33, text: 'What does the writer say about security features in new housing developments?', options: { A:'Developers add them even though residents have not asked for them.', B:'They prevent residents from forming a community beyond their fence.', C:'They discourage residents from taking exercise outside.', D:'Residents feel frightened when they leave the development.' } },
+                { id: 34, text: 'What point does the writer make about planning consultations?', options: { A:'Planners and developers distrust online forms of communication.', B:'Planners and developers tend to build conventional types of buildings.', C:'They rely on the opinions of a narrow range of people.', D:'Planners and developers use them to increase their profits.' } },
+                { id: 35, text: 'What does the writer say about Container City?', options: { A:'The building materials used are made locally.', B:'It succeeds because of its clever design.', C:'It is popular with students for the same reasons as similar projects.', D:'Its location makes it suitable for development.' } }
               ],
               answers: { 32: 'A', 33: 'C', 34: 'C', 35: 'B' }
             },
@@ -222,28 +193,22 @@ Successful development is taking place in many urban areas around the world, and
           title: 'Listening Part 1',
           instructions: 'Complete the form below. Write ONE WORD AND/OR A NUMBER for each answer.',
           formTitle: 'INSURANCE CLAIM FORM',
-          questionGroups: [
-            {
-              type: 'form_completion',
-              questions: [
-                { id: 1, label: 'Policy reference:', prefix: '', suffix: '' },
-                { id: 2, label: 'Address:', prefix: '102', suffix: 'Street, Northbridge' },
-                { id: 3, label: 'Phone number:', prefix: '', suffix: '' },
-                { id: 4, label: 'Cause of incident:', prefix: 'the house was damaged during a', suffix: '' },
-                { id: 5, label: 'Items: a pair of child\'s', prefix: '', suffix: '' },
-                { id: 6, label: 'a new', prefix: '', suffix: '' },
-                { id: 7, label: 'a torn', prefix: '', suffix: '' },
-                { id: 8, label: 'repairs to the door of the', prefix: '', suffix: '' },
-                { id: 9, label: 'Builder full name:', prefix: 'Steven', suffix: '' },
-                { id: 10, label: 'Client to send photographs of damaged', prefix: '', suffix: 'before building work starts' }
-              ],
-              answers: {
-                1: '05443CHI771', 2: 'Market', 3: '018 669 925', 4: 'storm',
-                5: 'glasses', 6: 'carpet', 7: 'curtain', 8: 'garage',
-                9: 'Honeywell', 10: 'fence'
-              }
-            }
-          ]
+          questionGroups: [{
+            type: 'form_completion',
+            questions: [
+              { id: 1,  label: 'Policy reference:',                       prefix: '',    suffix: '' },
+              { id: 2,  label: 'Address:',                                prefix: '102', suffix: 'Street, Northbridge' },
+              { id: 3,  label: 'Phone number:',                           prefix: '',    suffix: '' },
+              { id: 4,  label: 'Cause of incident:',                      prefix: 'the house was damaged during a', suffix: '' },
+              { id: 5,  label: "Items: a pair of child's",                prefix: '',    suffix: '' },
+              { id: 6,  label: 'a new',                                   prefix: '',    suffix: '' },
+              { id: 7,  label: 'a torn',                                  prefix: '',    suffix: '' },
+              { id: 8,  label: 'repairs to the door of the',              prefix: '',    suffix: '' },
+              { id: 9,  label: 'Builder full name:',                      prefix: 'Steven', suffix: '' },
+              { id: 10, label: 'Client to send photographs of damaged',   prefix: '',    suffix: 'before building work starts' }
+            ],
+            answers: { 1:'05443CHI771', 2:'Market', 3:'018 669 925', 4:'storm', 5:'glasses', 6:'carpet', 7:'curtain', 8:'garage', 9:'Honeywell', 10:'fence' }
+          }]
         },
         {
           id: 'lp2',
@@ -252,136 +217,59 @@ Successful development is taking place in many urban areas around the world, and
           questionGroups: [
             {
               type: 'mcq_multi',
-              instructions: 'Which TWO opportunities does the Young Explorer Programme offer to participants? Choose TWO letters, A–E.',
-              options: {
-                A: 'Improving negotiation skills',
-                B: 'Developing supportive relationships',
-                C: 'Acquiring a new physical skill',
-                D: 'Learning about environmental issues',
-                E: 'Competing for an award'
-              },
+              instructions: 'Which TWO opportunities does the Young Explorer Programme offer? Choose TWO letters, A–E.',
+              options: { A:'Improving negotiation skills', B:'Developing supportive relationships', C:'Acquiring a new physical skill', D:'Learning about environmental issues', E:'Competing for an award' },
               questions: [{ id: '11-12', text: 'Which TWO opportunities?' }],
-              answers: { '11-12': ['A', 'B'] }
+              answers: { '11-12': ['A','B'] }
             },
             {
               type: 'mcq_multi',
-              instructions: 'Which TWO subjects must groups in their preliminary training? Choose TWO letters, A–E.',
-              options: {
-                A: 'Finding sources of water',
-                B: 'Operating cooking equipment',
-                C: 'Knowing how to follow a route',
-                D: 'Searching for sage things to eat',
-                E: 'Using wood to build shelters'
-              },
+              instructions: 'Which TWO subjects must groups cover in preliminary training? Choose TWO letters, A–E.',
+              options: { A:'Finding sources of water', B:'Operating cooking equipment', C:'Knowing how to follow a route', D:'Searching for safe things to eat', E:'Using wood to build shelters' },
               questions: [{ id: '13-14', text: 'Which TWO subjects?' }],
-              answers: { '13-14': ['B', 'C'] }
+              answers: { '13-14': ['B','C'] }
             },
             {
               type: 'matching',
-              instructions: 'What does the speaker say about each of the following tracks? Write the correct letter, A, B, C or D.',
-              options: {
-                A: 'It is likely to be busy.',
-                B: 'It may be unsafe in places.',
-                C: 'It is currently closed to the public.',
-                D: 'It is divided into two sections.'
-              },
+              instructions: 'What does the speaker say about each track? Write the correct letter, A, B, C or D.',
+              options: { A:'It is likely to be busy.', B:'It may be unsafe in places.', C:'It is currently closed to the public.', D:'It is divided into two sections.' },
               questions: [
-                { id: 15, text: 'Northface' },
-                { id: 16, text: 'Blue River' },
-                { id: 17, text: 'Pioneer' },
-                { id: 18, text: 'Edgewater' },
-                { id: 19, text: 'Murray' },
-                { id: 20, text: 'Lakeside' }
+                { id: 15, text: 'Northface' }, { id: 16, text: 'Blue River' },
+                { id: 17, text: 'Pioneer' },   { id: 18, text: 'Edgewater' },
+                { id: 19, text: 'Murray' },     { id: 20, text: 'Lakeside' }
               ],
-              answers: { 15: 'C', 16: 'B', 17: 'D', 18: 'A', 19: 'B', 20: 'A' }
+              answers: { 15:'C', 16:'B', 17:'D', 18:'A', 19:'B', 20:'A' }
             }
           ]
         },
         {
           id: 'lp3',
           title: 'Listening Part 3',
-          instructions: 'You will hear a university tutor talking to two social science students about a project they are doing on the impact of technology on people\'s working lives.',
+          instructions: "You will hear a university tutor talking to two social science students about a project on the impact of technology on people's working lives.",
           questionGroups: [
             {
               type: 'mcq',
               instructions: 'Choose the correct letter, A, B or C.',
               title: 'The Future of Work',
               questions: [
-                {
-                  id: 21,
-                  text: 'Kiara and Finn agree that the articles they read on the future of work',
-                  options: {
-                    A: 'mainly reflect the concerns of older employees.',
-                    B: 'refer to the end of a traditional career path.',
-                    C: 'tend to exaggerate the likely changes.'
-                  }
-                },
-                {
-                  id: 22,
-                  text: 'What point does Kiara make about the phrase "job title"?',
-                  options: {
-                    A: 'It is no longer relevant in modern times.',
-                    B: 'It shows colleagues how to interact with each other.',
-                    C: 'It will only apply to people higher up in an organization.'
-                  }
-                },
-                {
-                  id: 23,
-                  text: 'What issue affecting young employees is Finn most concerned about?',
-                  options: {
-                    A: 'lack of job security',
-                    B: 'income inequality',
-                    C: 'poor chances of promotion'
-                  }
-                },
-                {
-                  id: 24,
-                  text: 'What is Kiara\'s attitude towards the Richards-Greeves survey on work-life balances?',
-                  options: {
-                    A: 'She thinks that the findings are predictable.',
-                    B: 'She is curious about the kind of work the interviewees do.',
-                    C: 'She believes it would be useful to know what the questions were.'
-                  }
-                },
-                {
-                  id: 25,
-                  text: 'Finn and Kiara agree that if employees are obliged to learn new skills,',
-                  options: {
-                    A: 'they should learn ones which might be useful in another job.',
-                    B: 'they should not be forced to learn them in their own time.',
-                    C: 'they should receive better guidance from training departments.'
-                  }
-                },
-                {
-                  id: 26,
-                  text: 'When Finn talks about the impact of mobile technology, Kiara responds by',
-                  options: {
-                    A: 'emphasizing the possible disadvantages',
-                    B: 'describing her personal experience.',
-                    C: 'mentioning groups who benefit most from devices.'
-                  }
-                }
+                { id: 21, text: 'Kiara and Finn agree that the articles they read on the future of work', options: { A:'mainly reflect the concerns of older employees.', B:'refer to the end of a traditional career path.', C:'tend to exaggerate the likely changes.' } },
+                { id: 22, text: 'What point does Kiara make about the phrase "job title"?', options: { A:'It is no longer relevant in modern times.', B:'It shows colleagues how to interact with each other.', C:'It will only apply to people higher up in an organization.' } },
+                { id: 23, text: 'What issue affecting young employees is Finn most concerned about?', options: { A:'lack of job security', B:'income inequality', C:'poor chances of promotion' } },
+                { id: 24, text: "What is Kiara's attitude towards the Richards-Greeves survey?", options: { A:'She thinks that the findings are predictable.', B:'She is curious about the kind of work the interviewees do.', C:'She believes it would be useful to know what the questions were.' } },
+                { id: 25, text: 'Finn and Kiara agree that if employees are obliged to learn new skills,', options: { A:'they should learn ones which might be useful in another job.', B:'they should not be forced to learn them in their own time.', C:'they should receive better guidance from training departments.' } },
+                { id: 26, text: 'When Finn talks about the impact of mobile technology, Kiara responds by', options: { A:'emphasizing the possible disadvantages', B:'describing her personal experience.', C:'mentioning groups who benefit most from devices.' } }
               ],
-              answers: { 21: 'B', 22: 'A', 23: 'B', 24: 'C', 25: 'A', 26: 'B' }
+              answers: { 21:'B', 22:'A', 23:'B', 24:'C', 25:'A', 26:'B' }
             },
             {
               type: 'matching',
-              instructions: 'What impact might Artificial Intelligence (AI) have on each of the following professions? Choose FOUR answers from the box and write the correct letter, A–F.',
-              options: {
-                A: 'It will give them a greater sense of satisfaction.',
-                B: 'It will encourage them to compete with one another.',
-                C: 'It will reduce the level of stress they have.',
-                D: 'It may eventually lead to their jobs disappearing.',
-                E: 'It could prevent them from coming to harm.',
-                F: 'It will enable them to do tasks they have not trained for.'
-              },
+              instructions: 'What impact might AI have on each profession? Choose FOUR answers from the box, A–F.',
+              options: { A:'It will give them a greater sense of satisfaction.', B:'It will encourage them to compete with one another.', C:'It will reduce the level of stress they have.', D:'It may eventually lead to their jobs disappearing.', E:'It could prevent them from coming to harm.', F:'It will enable them to do tasks they have not trained for.' },
               questions: [
-                { id: 27, text: 'Architects' },
-                { id: 28, text: 'Doctors' },
-                { id: 29, text: 'Lawyers' },
-                { id: 30, text: 'Sports referees' }
+                { id: 27, text: 'Architects' }, { id: 28, text: 'Doctors' },
+                { id: 29, text: 'Lawyers' },    { id: 30, text: 'Sports referees' }
               ],
-              answers: { 27: 'B', 28: 'F', 29: 'C', 30: 'D' }
+              answers: { 27:'B', 28:'F', 29:'C', 30:'D' }
             }
           ]
         },
@@ -389,43 +277,38 @@ Successful development is taking place in many urban areas around the world, and
           id: 'lp4',
           title: 'Listening Part 4',
           instructions: 'Complete the notes below. Write ONE WORD ONLY for each answer.',
-          questionGroups: [
-            {
-              type: 'notes_completion',
-              title: 'The Klondike Gold Rush of Canada',
-              sections: [
-                {
-                  heading: "The Gold-seekers' journey to the Klondike river",
-                  questions: [
-                    { id: 31, text: 'The White Pass Trail was difficult because of rocks and ___ along the way.' },
-                    { id: 32, text: 'The Chilkoot Trail was very ___ so it could take three months.' },
-                    { id: 33, text: 'On both trails, gold-seekers gave up because of starvation, disease and the fear of ___.' },
-                    { id: 34, text: 'At Lake Bennet, gold-seekers stayed in a ___ until spring arrived.' },
-                    { id: 35, text: 'At Miles Canyon, it was necessary to hire an experienced ___ to continue the journey.' }
-                  ]
-                },
-                {
-                  heading: 'The Equipment gold-seekers had to take',
-                  questions: [
-                    { id: 36, text: 'The ___ provided gold-seekers with a list.' },
-                    { id: 37, text: 'The list included tea and food such as ___.' },
-                    { id: 38, text: 'Tools, e.g. rope and several ___.' }
-                  ]
-                },
-                {
-                  heading: 'People who became successful because of the gold rush',
-                  questions: [
-                    { id: 39, text: 'Jack London created sense of ___ in his stories.' },
-                    { id: 40, text: 'Annie Hall Strong and Emma Kelly contributed to various ___ in Canada and the US.' }
-                  ]
-                }
-              ],
-              answers: {
-                31: 'mud', 32: 'steep', 33: 'failure', 34: 'tent', 35: 'sailor',
-                36: 'police', 37: 'flour', 38: 'buckets', 39: 'adventure', 40: 'newspapers'
+          questionGroups: [{
+            type: 'notes_completion',
+            title: 'The Klondike Gold Rush of Canada',
+            sections: [
+              {
+                heading: "The Gold-seekers' journey to the Klondike river",
+                questions: [
+                  { id: 31, text: 'The White Pass Trail was difficult because of rocks and ___ along the way.' },
+                  { id: 32, text: 'The Chilkoot Trail was very ___ so it could take three months.' },
+                  { id: 33, text: 'On both trails, gold-seekers gave up because of starvation, disease and the fear of ___.' },
+                  { id: 34, text: 'At Lake Bennet, gold-seekers stayed in a ___ until spring arrived.' },
+                  { id: 35, text: 'At Miles Canyon, it was necessary to hire an experienced ___ to continue the journey.' }
+                ]
+              },
+              {
+                heading: 'The Equipment gold-seekers had to take',
+                questions: [
+                  { id: 36, text: 'The ___ provided gold-seekers with a list.' },
+                  { id: 37, text: 'The list included tea and food such as ___.' },
+                  { id: 38, text: 'Tools, e.g. rope and several ___.' }
+                ]
+              },
+              {
+                heading: 'People who became successful because of the gold rush',
+                questions: [
+                  { id: 39, text: 'Jack London created sense of ___ in his stories.' },
+                  { id: 40, text: 'Annie Hall Strong and Emma Kelly contributed to various ___ in Canada and the US.' }
+                ]
               }
-            }
-          ]
+            ],
+            answers: { 31:'mud', 32:'steep', 33:'failure', 34:'tent', 35:'sailor', 36:'police', 37:'flour', 38:'buckets', 39:'adventure', 40:'newspapers' }
+          }]
         }
       ]
     }
