@@ -246,7 +246,17 @@ const MockApp = (() => {
     startTimer('listening');
   }
 
-  function goPart(i) {   // save current audio time before re-render   const audio = document.getElementById('mock-audio');   if (audio) state.audioTime = audio.currentTime;      state.listenPart = i;   renderListening();      // restore audio position after re-render   const newAudio = document.getElementById('mock-audio');   if (newAudio && state.audioTime) {     newAudio.currentTime = state.audioTime;     newAudio.play();   } }
+  function goPart(i) {
+  const audio = document.getElementById('mock-audio');
+  if (audio) state.audioTime = audio.currentTime;
+  state.listenPart = i;
+  renderListening();
+  const newAudio = document.getElementById('mock-audio');
+  if (newAudio && state.audioTime) {
+    newAudio.currentTime = state.audioTime;
+    newAudio.play();
+  }
+}
 
   function renderListening() {
     const mock  = MOCK_DATA[state.mockId];
