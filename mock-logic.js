@@ -12,6 +12,7 @@ const MockApp = (() => {
     readFontSize: 15,
     listenFontSize: 16,
     hlColor: '#ffd70066',
+    audioTime: 0,
   };
 
   // drag kept outside render loop so listeners survive re-renders
